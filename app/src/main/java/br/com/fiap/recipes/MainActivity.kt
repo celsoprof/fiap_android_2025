@@ -1,11 +1,13 @@
 package br.com.fiap.recipes
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,23 +23,26 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.fiap.recipes.ui.theme.RecipesTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
+            RecipesTheme {
+                InitialScreen()
+            }
         }
     }
 }
@@ -47,20 +52,23 @@ fun InitialScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
         Card(
             modifier = Modifier
                 .size(width = 160.dp, height = 85.dp)
                 .align(Alignment.TopEnd),
             colors = CardDefaults
-                .cardColors(containerColor = Color(0xFFED1459)),
+                .cardColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
             shape = RoundedCornerShape(bottomStart = 85.dp)
-        ) {  }
+        ) { }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 48.dp, vertical = 16.dp)
-                .align(Alignment.Center), 
+                .align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
@@ -77,25 +85,28 @@ fun InitialScreen() {
                     text = "UNLIMITED PREMIUM RECIPES",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFF868080)
+                    color = MaterialTheme.colorScheme.secondary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Start\nCooking",
                     fontSize = 64.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFFED1459)
+                    color = MaterialTheme.colorScheme.primary,
+                    lineHeight = 56.sp
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Row {
                     Button(
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFED1459)
+                            containerColor = MaterialTheme
+                                .colorScheme.primary
                         ),
                         border = BorderStroke(
                             width = 1.dp,
-                            color = Color(0xFFFFC107)
+                            color = MaterialTheme
+                                .colorScheme.tertiary
                         ),
                         modifier = Modifier
                             .size(128.dp, 48.dp)
@@ -103,7 +114,7 @@ fun InitialScreen() {
                         Text(
                             text = "Login",
                             fontSize = 16.sp,
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onPrimary,
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -111,11 +122,11 @@ fun InitialScreen() {
                     Button(
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFFFC107)
+                            containerColor = MaterialTheme.colorScheme.tertiary
                         ),
                         border = BorderStroke(
                             width = 1.dp,
-                            color = Color(0xFFED1459)
+                            color = MaterialTheme.colorScheme.primary
                         ),
                         modifier = Modifier
                             .size(width = 128.dp, height = 48.dp)
@@ -123,7 +134,8 @@ fun InitialScreen() {
                         Text(
                             text = "Sign up",
                             fontSize = 16.sp,
-                            color = Color(0xFFED1459),
+                            color = MaterialTheme
+                                .colorScheme.onTertiary,
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -135,14 +147,20 @@ fun InitialScreen() {
                 .size(width = 160.dp, height = 85.dp)
                 .align(Alignment.BottomStart),
             colors = CardDefaults
-                .cardColors(containerColor = Color(0xFFED1459)),
+                .cardColors(containerColor = MaterialTheme
+                    .colorScheme.primary),
             shape = RoundedCornerShape(topEnd = 85.dp)
-        ) {  }
+        ) { }
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 @Composable
-fun InitialScreenPreview(){
-    InitialScreen()
+fun InitialScreenPreview() {
+    RecipesTheme {
+        InitialScreen()
+    }
 }
