@@ -38,7 +38,7 @@ import br.com.fiap.recipes.ui.theme.RecipesTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContent {
             RecipesTheme {
                 InitialScreen()
@@ -156,7 +156,7 @@ fun InitialScreen() {
 
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 fun InitialScreenPreview() {
