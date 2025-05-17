@@ -29,11 +29,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.recipes.ui.theme.RecipesTheme
+import br.com.fiap.recipes.ui.theme.poppinsFamily
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,18 +84,16 @@ fun InitialScreen() {
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "UNLIMITED PREMIUM RECIPES",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.secondary
+                    text = stringResource(R.string.unlimited_recipes),
+                    color = MaterialTheme.colorScheme.secondary,
+                    style = MaterialTheme.typography.titleSmall
                 )
                 Spacer(modifier = Modifier.height(8.dp))
+                // TEXTO START COOKING
                 Text(
-                    text = "Start\nCooking",
-                    fontSize = 64.sp,
-                    fontWeight = FontWeight.Bold,
+                    text = stringResource(R.string.app_title),
                     color = MaterialTheme.colorScheme.primary,
-                    lineHeight = 56.sp
+                    style = MaterialTheme.typography.displayLarge
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Row {
@@ -109,13 +109,13 @@ fun InitialScreen() {
                                 .colorScheme.tertiary
                         ),
                         modifier = Modifier
-                            .size(128.dp, 48.dp)
+                            .height(48.dp)
                     ) {
+                        // TEXTO DO BOTÃO DE LOGIN
                         Text(
-                            text = "Login",
-                            fontSize = 16.sp,
+                            text = stringResource(R.string.button_login),
                             color = MaterialTheme.colorScheme.onPrimary,
-                            fontWeight = FontWeight.Bold
+                            style = MaterialTheme.typography.labelMedium
                         )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
@@ -129,14 +129,13 @@ fun InitialScreen() {
                             color = MaterialTheme.colorScheme.primary
                         ),
                         modifier = Modifier
-                            .size(width = 128.dp, height = 48.dp)
+                            .height(height = 48.dp)
                     ) {
+                        // TEXTO DO BOTÃO SIGN UP
                         Text(
-                            text = "Sign up",
-                            fontSize = 16.sp,
-                            color = MaterialTheme
-                                .colorScheme.onTertiary,
-                            fontWeight = FontWeight.Bold
+                            text = stringResource(R.string.button_signup),
+                            color = MaterialTheme.colorScheme.onTertiary,
+                            style = MaterialTheme.typography.labelMedium
                         )
                     }
                 }
@@ -156,7 +155,8 @@ fun InitialScreen() {
 
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    locale = "en"
 )
 @Composable
 fun InitialScreenPreview() {
