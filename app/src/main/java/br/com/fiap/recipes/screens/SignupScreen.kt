@@ -252,7 +252,7 @@ fun SignupUserForm(modifier: Modifier = Modifier) {
                 )
             },
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
+                keyboardType = KeyboardType.NumberPassword,
                 imeAction = ImeAction.Done
             )
         )
