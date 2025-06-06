@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
@@ -37,6 +37,45 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.fiap.recipes.R
 import br.com.fiap.recipes.ui.theme.RecipesTheme
+
+// *** Tela SigupScreen ***
+@Composable
+fun SignupScreen(modifier: Modifier = Modifier) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ){
+        TopEndCard(modifier = Modifier.align(Alignment.TopEnd))
+        BottomStartCard(modifier = Modifier.align(Alignment.BottomStart))
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.Center),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            TitleComponent()
+            Spacer(modifier = Modifier.height(48.dp))
+            UserImage()
+            SignupUserForm()
+        }
+
+    }
+}
+
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    locale = "en"
+)
+@Composable
+private fun SignupScreenPreview() {
+    RecipesTheme {
+        SignupScreen()
+    }
+
+}
 
 // *** Componente 1 - Título da tela ***
 @Composable
@@ -122,7 +161,8 @@ fun SignupUserForm(modifier: Modifier = Modifier) {
             value = "",
             onValueChange = {},
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(bottom = 4.dp),
             shape = RoundedCornerShape(16.dp),
             colors = OutlinedTextFieldDefaults
                 .colors(
@@ -153,7 +193,8 @@ fun SignupUserForm(modifier: Modifier = Modifier) {
             value = "",
             onValueChange = {},
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(4.dp),
             shape = RoundedCornerShape(16.dp),
             colors = OutlinedTextFieldDefaults
                 .colors(
@@ -212,7 +253,7 @@ fun SignupUserForm(modifier: Modifier = Modifier) {
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Done
             )
         )
         // Botão Create account
@@ -220,7 +261,8 @@ fun SignupUserForm(modifier: Modifier = Modifier) {
         Button(
             onClick = {},
             modifier = Modifier
-                .fillMaxWidth().height(48.dp),
+                .fillMaxWidth()
+                .height(48.dp),
             shape = RoundedCornerShape(8.dp)
         ) {
             Text(
