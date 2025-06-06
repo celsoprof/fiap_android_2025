@@ -4,4 +4,9 @@
     <string name="unlimited_recipes">UNLIMITED PREMIUM RECIPES</string>
     <string name="button_login">Login</string>
     <string name="button_signup">Sign up</string>
+    <string name="signup_subtitle">Create a new account</string>
+    <string name="sign_up">Sign up</string>
+    <string name="your_name">Your name</string>
+    <string name="your_e_mail">Your e-mail</string>
+    <string name="your_password">Your password</string>
 </resources>
