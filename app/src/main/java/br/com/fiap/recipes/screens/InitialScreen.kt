@@ -120,7 +120,7 @@ fun InitialScreen() {
 
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
     locale = "en"
 )
 @Composable
