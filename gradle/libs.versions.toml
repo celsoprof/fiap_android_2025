@@ -13,7 +13,7 @@ composeBom = "2025.06.01"
 # e Kotlinx Serialization Json,
 # que serão utilizadas na seção [libraries]
 navigationCompose = "2.9.0"
-kotlinxSerializationJson = "1.6.3"
+kotlinxSerializationJson = "1.7.3"
 
 
 [libraries]
