@@ -7,3 +7,6 @@ object InitialScreenRoute
 
 @Serializable
 object LoginScreenRoute
+
+@Serializable
+object SignupScreenRoute

@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.com.fiap.recipes.screens.InitialScreen
 import br.com.fiap.recipes.screens.LoginScreen
+import br.com.fiap.recipes.screens.SignupScreen
 
 @Composable
 fun NavigationRoutes() {
@@ -13,8 +14,22 @@ fun NavigationRoutes() {
     NavHost(
         navController = navController,
         startDestination = InitialScreenRoute
-    ){
-        composable<LoginScreenRoute>{ LoginScreen() }
-        composable<InitialScreenRoute>{ InitialScreen() }
+    ) {
+        composable<LoginScreenRoute> {
+            LoginScreen{
+                navController.navigate(SignupScreenRoute)
+            }
+        }
+        // TRECHO DE CÓDIGO OMITIDO
+        composable<InitialScreenRoute> {
+            InitialScreen { screen ->
+                when (screen) {
+                    "Login" -> navController.navigate(LoginScreenRoute)
+                    else -> navController.navigate(SignupScreenRoute)
+                }
+            }
+        }
+        // TRECHO DE CÓDIGO OMITIDO
+        composable<SignupScreenRoute> { SignupScreen() }
     }
 }

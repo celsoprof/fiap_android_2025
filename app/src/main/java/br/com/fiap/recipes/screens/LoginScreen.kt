@@ -37,7 +37,7 @@ import br.com.fiap.recipes.R
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(navigateTo: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -54,7 +54,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LoginTitle()
-            LoginForm()
+            LoginForm { navigateTo() }
         }
 
     }
@@ -68,7 +68,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun LoginScreenPreview() {
     RecipesTheme {
-        LoginScreen()
+        LoginScreen({})
     }
 }
 
@@ -109,7 +109,7 @@ private fun LoginTitlePreview() {
 
 // *** Componente 2 - Formulário de Login do Usuário
 @Composable
-fun LoginForm(modifier: Modifier = Modifier) {
+fun LoginForm(navigateTo: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -209,7 +209,9 @@ fun LoginForm(modifier: Modifier = Modifier) {
                 color = MaterialTheme.colorScheme.primary
             )
             TextButton(
-                onClick = {}
+                onClick = {
+                    navigateTo()
+                }
             ) {
                 Text(
                     text = stringResource(R.string.sign_up),
@@ -229,6 +231,6 @@ fun LoginForm(modifier: Modifier = Modifier) {
 @Composable
 private fun LoginFormPreview() {
     RecipesTheme {
-        LoginForm()
+        LoginForm({})
     }
 }

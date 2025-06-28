@@ -1,6 +1,7 @@
 package br.com.fiap.recipes.screens
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,11 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +30,7 @@ import br.com.fiap.recipes.R
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 
 @Composable
-fun InitialScreen() {
+fun InitialScreen(navigateTo: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -70,8 +68,11 @@ fun InitialScreen() {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Row {
+                    // Botão Login
                     Button(
-                        onClick = {},
+                        onClick = {
+                            navigateTo("Login")
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme
                                 .colorScheme.primary
@@ -93,7 +94,9 @@ fun InitialScreen() {
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
-                        onClick = {},
+                        onClick = {
+                            navigateTo("Signup")
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.tertiary
                         ),
@@ -126,6 +129,6 @@ fun InitialScreen() {
 @Composable
 fun InitialScreenPreview() {
     RecipesTheme {
-        InitialScreen()
+        InitialScreen({})
     }
 }
