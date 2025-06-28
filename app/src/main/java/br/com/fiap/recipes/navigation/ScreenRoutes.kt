@@ -10,3 +10,6 @@ object LoginScreenRoute
 
 @Serializable
 object SignupScreenRoute
+
+@Serializable
+data class HomeScreenRoute(val email: String)

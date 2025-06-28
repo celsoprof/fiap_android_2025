@@ -20,7 +20,6 @@ fun NavigationRoutes() {
                 navController.navigate(SignupScreenRoute)
             }
         }
-        // TRECHO DE CÓDIGO OMITIDO
         composable<InitialScreenRoute> {
             InitialScreen { screen ->
                 when (screen) {
@@ -29,7 +28,9 @@ fun NavigationRoutes() {
                 }
             }
         }
-        // TRECHO DE CÓDIGO OMITIDO
         composable<SignupScreenRoute> { SignupScreen() }
+        composable<HomeScreenRoute> {
+
+        }
     }
 }
