@@ -1,15 +1,14 @@
 package br.com.fiap.recipes.navigation
 
-import kotlinx.serialization.Serializable
+sealed class Destination(val route: String){
+    object InitialScreen: Destination("initial")
+    object SignupScreen: Destination("signup")
 
-@Serializable
-object InitialScreenRoute
+    object HomeScreen: Destination("home/{email}"){
+        fun createRoute(email: String): String {
+            return "home/$email"
+        }
+    }
 
-@Serializable
-object LoginScreenRoute
-
-@Serializable
-object SignupScreenRoute
-
-@Serializable
-data class HomeScreenRoute(val email: String)
+    object LoginScreen: Destination("login")
+}

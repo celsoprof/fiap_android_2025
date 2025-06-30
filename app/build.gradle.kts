@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 
     // Plugin do Kotlinx Serialization Json
-    alias(libs.plugins.kotlinx.serialization.json)
+    //alias(libs.plugins.kotlinx.serialization.json)
 
 }
 
@@ -57,7 +57,7 @@ dependencies {
     // Dependências do Navigation Compose
     // e Kotlinx Serialization Json
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.kotlinx.serialization.json)
+    //implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

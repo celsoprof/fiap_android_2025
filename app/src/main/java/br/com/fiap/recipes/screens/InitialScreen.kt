@@ -1,7 +1,6 @@
 package br.com.fiap.recipes.screens
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,11 +25,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import br.com.fiap.recipes.R
+import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 
 @Composable
-fun InitialScreen(navigateTo: (String) -> Unit) {
+fun InitialScreen(navController: NavController?) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -71,7 +72,7 @@ fun InitialScreen(navigateTo: (String) -> Unit) {
                     // Botão Login
                     Button(
                         onClick = {
-                            navigateTo("Login")
+                            navController?.navigate(Destination.LoginScreen.route)
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme
@@ -95,7 +96,7 @@ fun InitialScreen(navigateTo: (String) -> Unit) {
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
                         onClick = {
-                            navigateTo("Signup")
+                            navController?.navigate(Destination.SignupScreen.route)
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.tertiary
@@ -129,6 +130,6 @@ fun InitialScreen(navigateTo: (String) -> Unit) {
 @Composable
 fun InitialScreenPreview() {
     RecipesTheme {
-        InitialScreen({})
+        InitialScreen(null)
     }
 }

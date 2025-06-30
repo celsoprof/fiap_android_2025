@@ -35,11 +35,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import br.com.fiap.recipes.R
+import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 
 @Composable
-fun LoginScreen(navigateTo: () -> Unit) {
+fun LoginScreen(navController: NavController) {
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -56,7 +59,7 @@ fun LoginScreen(navigateTo: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LoginTitle()
-            LoginForm { navigateTo() }
+            LoginForm(navController)
         }
 
     }
@@ -70,7 +73,8 @@ fun LoginScreen(navigateTo: () -> Unit) {
 @Composable
 private fun LoginScreenPreview() {
     RecipesTheme {
-        LoginScreen({})
+        //LoginScreen({})
+        //LoginScreen()
     }
 }
 
@@ -111,7 +115,7 @@ private fun LoginTitlePreview() {
 
 // *** Componente 2 - Formulário de Login do Usuário
 @Composable
-fun LoginForm(navigateTo: () -> Unit) {
+fun LoginForm(navController: NavController) {
 
     var emailState = remember {
         mutableStateOf("")
@@ -195,7 +199,11 @@ fun LoginForm(navigateTo: () -> Unit) {
         // Botão Sign in
         Spacer(modifier = Modifier.height(32.dp))
         Button(
-            onClick = {},
+            onClick = {
+                navController.navigate(
+                    Destination.HomeScreen.createRoute(emailState.value)
+                )
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
@@ -219,7 +227,7 @@ fun LoginForm(navigateTo: () -> Unit) {
             )
             TextButton(
                 onClick = {
-                    navigateTo()
+                    navController.navigate(Destination.SignupScreen.route)
                 }
             ) {
                 Text(
@@ -240,6 +248,6 @@ fun LoginForm(navigateTo: () -> Unit) {
 @Composable
 private fun LoginFormPreview() {
     RecipesTheme {
-        LoginForm({})
+        //LoginForm({})
     }
 }

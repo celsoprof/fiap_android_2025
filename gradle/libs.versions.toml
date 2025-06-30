@@ -13,7 +13,7 @@ composeBom = "2025.06.01"
 # e Kotlinx Serialization Json,
 # que serão utilizadas na seção [libraries]
 navigationCompose = "2.9.0"
-kotlinxSerializationJson = "1.7.3"
+#kotlinxSerializationJson = "1.7.3"
 
 
 [libraries]
@@ -36,7 +36,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 # e Kotlinx Serialization Json
 # com as versões definidas na seção [versions]
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose"}
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+#kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -44,5 +44,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 # Plugin do Kotlin para utilizar o Kotlinx Serialization
-kotlinx-serialization-json = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+#kotlinx-serialization-json = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 

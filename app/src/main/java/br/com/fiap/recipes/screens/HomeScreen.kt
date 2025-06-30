@@ -50,11 +50,11 @@ import br.com.fiap.recipes.R
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(email: String) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             topBar = {
-                MyTopAppBar()
+                MyTopAppBar(email)
             },
             bottomBar = {
                 MyBottomAppBar()
@@ -86,7 +86,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun HomeScreenPreview() {
     RecipesTheme {
-        HomeScreen()
+        HomeScreen("")
     }
 }
 
@@ -170,7 +170,7 @@ private fun ContentScreenPreview() {
 // *** TopAppBar ***
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopAppBar(modifier: Modifier = Modifier) {
+fun MyTopAppBar(email: String = "") {
     TopAppBar(
         modifier = Modifier
             .fillMaxWidth()
@@ -193,7 +193,7 @@ fun MyTopAppBar(modifier: Modifier = Modifier) {
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "lucas@email.com",
+                        text = email,
                         style = MaterialTheme.typography.displaySmall
                     )
                 }
