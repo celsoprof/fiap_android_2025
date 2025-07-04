@@ -37,7 +37,7 @@ fun NavigationRoutes() {
             )
         ) { backStackEntry ->
             var email = backStackEntry.arguments?.getString("email")
-            HomeScreen(email!!)
+            HomeScreen(email!!, navController)
         }
 
         composable(Destination.SignupScreen.route) { SignupScreen() }

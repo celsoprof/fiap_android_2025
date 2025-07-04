@@ -14,6 +14,7 @@ fun getAllRecipes() = listOf<Recipe>(
         user = User(id = 100, name = "Ana Maria"),
         difficultLevel = DifficultLevel.BEGINNER,
         name = "Bolo de Cenoura",
+        description = "Moist, spiced, carrot-filled cake with tangy cream cheese frosting.",
         cookingTime = 60,
         createdAt = LocalDate.now(),
         image = R.drawable.bolo_cenoura
@@ -24,6 +25,7 @@ fun getAllRecipes() = listOf<Recipe>(
         user = User(id = 200, name = "Pedro Augusto"),
         difficultLevel = DifficultLevel.INTERMEDIATE,
         name = "Salada de Palmito",
+        description = "Refreshing heart of palm salad, light, savory, and subtly sweet.",
         cookingTime = 10,
         createdAt = LocalDate.now(),
         image = R.drawable.salada_de_palmito
@@ -34,6 +36,7 @@ fun getAllRecipes() = listOf<Recipe>(
         user = User(id = 300, name = "Patricia Oliveira"),
         difficultLevel = DifficultLevel.ADVANCED,
         name = "Pão de calabresa",
+        description = "Spicy sausage and cheese bread: soft, savory, delicious.",
         cookingTime = 10,
         createdAt = LocalDate.now(),
         image = R.drawable.pao_calabresa
@@ -44,6 +47,7 @@ fun getAllRecipes() = listOf<Recipe>(
         user = User(id = 400, name = "Mariana Dias"),
         difficultLevel = DifficultLevel.ADVANCED,
         name = "Sopa de Legumes",
+        description = "Hearty vegetable soup: warm, nourishing, fresh, wholesome goodness.",
         cookingTime = 45,
         createdAt = LocalDate.now(),
         image = R.drawable.sopa_legumes
@@ -54,32 +58,33 @@ fun getAllRecipes() = listOf<Recipe>(
         user = User(id = 500, name = "Carlos Almeida"),
         difficultLevel = DifficultLevel.ADVANCED,
         name = "Feijoada",
+        description = "Rich, smoky, hearty, bean and meat stew.",
         cookingTime = 120,
         createdAt = LocalDate.now(),
         image = R.drawable.feijoada
     )
 )
 
+fun getRecipesByCategory(id: Int) = getAllRecipes()
+    .filter { recipe ->
+        recipe.category.id == id
+    }
+
+
 fun getRecipeById(id: Int) = getAllRecipes()
     .filter {
         it.id == id
     }
-
-fun getRecipeByCategory(id: Int) = getAllRecipes()
-    .filter {
-        it.category.id == id
-    }
-
 fun main() {
-    val id = 1;
-    var recipe = getAllRecipes().filter {
-        it.id == id
-    }
-    println(recipe)
-    println("________RECIPE POR ID____________")
-    println(getRecipeById(2))
-    println("________RECIPES POR CATEGORIA____________")
-    println(getRecipeByCategory(2000))
+//    val id = 1;
+//    var recipe = getAllRecipes().filter {
+//        it.id == id
+//    }
+//    println(recipe)
+//    println("________RECIPE POR ID____________")
+//    println(getRecipeById(2))
+//    println("________RECIPES POR CATEGORIA____________")
+    println(getRecipesByCategory(5000))
 }
 
 

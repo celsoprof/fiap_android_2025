@@ -50,16 +50,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import br.com.fiap.recipes.R
 import br.com.fiap.recipes.components.CategoryItem
 import br.com.fiap.recipes.components.RecipeItem
+import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.repository.getAllCategories
 import br.com.fiap.recipes.repository.getAllRecipes
 import br.com.fiap.recipes.ui.theme.RecipesTheme
-import java.nio.file.WatchEvent
 
 @Composable
-fun HomeScreen(email: String) {
+fun HomeScreen(email: String, navController: NavController) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             topBar = {
@@ -82,7 +83,10 @@ fun HomeScreen(email: String) {
                 }
             }
         ) { paddingValues ->
-            ContentScreen(modifier = Modifier.padding(paddingValues))
+            ContentScreen(
+                modifier = Modifier.padding(paddingValues),
+                navController = navController
+            )
         }
     }
 }
@@ -95,14 +99,17 @@ fun HomeScreen(email: String) {
 @Composable
 private fun HomeScreenPreview() {
     RecipesTheme {
-        HomeScreen("")
+        //HomeScreen("")
     }
 }
 
 // TRECHO DE CÓDIGO OMITIDO
 // *** Conteúdo da Tela
 @Composable
-fun ContentScreen(modifier: Modifier = Modifier) {
+fun ContentScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
 
     val categories = getAllCategories();
     val recipes = getAllRecipes()
@@ -163,17 +170,24 @@ fun ContentScreen(modifier: Modifier = Modifier) {
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         ) {
-            items(categories){ category ->
-                CategoryItem(category)
+            items(categories) { category ->
+                CategoryItem(
+                    category = category,
+                    onClick = {
+                        navController.navigate(Destination.SignupScreen.route)
+                    }
+                )
             }
         }
         //Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "Newly added recipes",
             style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.primary, 
+            color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
         LazyColumn(
@@ -198,7 +212,7 @@ fun ContentScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun ContentScreenPreview() {
     RecipesTheme {
-        ContentScreen()
+        //ContentScreen()
     }
 }
 
@@ -265,6 +279,7 @@ private fun MyTopAppBarPreview() {
         MyTopAppBar()
     }
 }
+
 // TRECHO DE CÓDIGO OMITIDO...
 // *** BottomAppBar
 data class BottomNavigationItem(

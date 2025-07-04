@@ -10,6 +10,7 @@ data class Recipe(
     val user: User,
     val difficultLevel: DifficultLevel,
     val name: String = "",
+    val description: String = "",
     val cookingTime: Int = 0,
     val createdAt: LocalDate = LocalDate.now(),
     @DrawableRes val image: Int? = R.drawable.no_photo,
