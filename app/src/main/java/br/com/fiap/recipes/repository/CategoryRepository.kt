@@ -12,11 +12,11 @@ fun getAllCategories() = listOf<Category>(
     Category(id = 3, name = "Fish",
         image = R.drawable.fish, background = Color(0xFFC6DAFA)),
     Category(id = 4, name = "Bakery",
-        image = R.drawable.backery, background = Color(0xFFF8D9D9)),
+        image = R.drawable.bakery, background = Color(0xFFF8D9D9)),
     Category(id = 5, name = "Vegetable",
         image = R.drawable.vegetable, background = Color(0xFFABF2E9)),
     Category(id = 6, name = "Desserts",
-        image = R.drawable.no_photo, background = Color(0xFF72412B)),
+        image = R.drawable.dessert, background = Color(0xFF72412B)),
     Category(id = 7, name = "Drinks",
         image = R.drawable.drink, background = Color(0xFF80DEEA))
 )
