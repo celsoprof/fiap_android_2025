@@ -10,5 +10,13 @@ sealed class Destination(val route: String){
         }
     }
 
+    // TRECHO DE CÓDIGO OMITIDO
+    object CategoryRecipeScreen: Destination("categoryRecipes/{id}"){
+        fun createRoute(id: Int): String {
+            return "categoryRecipes/$id"
+        }
+    }
+    // TRECHO DE CÓDIGO OMITIDO
+
     object LoginScreen: Destination("login")
 }

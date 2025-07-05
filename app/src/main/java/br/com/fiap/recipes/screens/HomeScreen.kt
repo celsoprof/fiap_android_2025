@@ -178,7 +178,11 @@ fun ContentScreen(
                 CategoryItem(
                     category = category,
                     onClick = {
-                        navController.navigate(Destination.SignupScreen.route)
+                        navController.navigate(
+                            route = Destination
+                                .CategoryRecipeScreen
+                                .createRoute(id = category.id)
+                        )
                     }
                 )
             }

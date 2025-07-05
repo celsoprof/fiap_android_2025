@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         //enableEdgeToEdge()
         setContent {
             RecipesTheme {
-                //CategoryRecipeScreen(getAllRecipes()[0])
+                //CategoryRecipeScreen(5000)
                 NavigationRoutes()
             }
         }

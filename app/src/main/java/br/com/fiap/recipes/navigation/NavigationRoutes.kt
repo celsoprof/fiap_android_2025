@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import br.com.fiap.recipes.screens.CategoryRecipeScreen
 import br.com.fiap.recipes.screens.HomeScreen
 import br.com.fiap.recipes.screens.InitialScreen
 import br.com.fiap.recipes.screens.LoginScreen
@@ -38,6 +39,18 @@ fun NavigationRoutes() {
         ) { backStackEntry ->
             var email = backStackEntry.arguments?.getString("email")
             HomeScreen(email!!, navController)
+        }
+
+        composable(
+            route = Destination.CategoryRecipeScreen.route,
+            arguments = listOf(
+                navArgument(name = "id") {
+                    type = NavType.IntType
+                }
+            )
+        ) { backStackEntry ->
+            var categoryId = backStackEntry.arguments?.getInt("id")
+            CategoryRecipeScreen(categoryId, navController)
         }
 
         composable(Destination.SignupScreen.route) { SignupScreen() }

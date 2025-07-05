@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
@@ -39,16 +40,41 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import br.com.fiap.recipes.R
 import br.com.fiap.recipes.model.Recipe
+import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.repository.getAllRecipes
+import br.com.fiap.recipes.repository.getCategoryById
+import br.com.fiap.recipes.repository.getRecipesByCategory
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 
 @Composable
-fun CategoryRecipeScreen(recipe: Recipe) {
+fun CategoryRecipeScreen(categoryId: Int?, navController: NavHostController?) {
+
+    val recipesByCategory = getRecipesByCategory(
+        id = categoryId!!
+    )
+
+    var categoryName = ""
+
+    when (recipesByCategory.size) {
+        0 -> {
+            categoryName = getCategoryById(categoryId)!!.name
+        }
+
+        else -> {
+            categoryName = recipesByCategory[0].category.name
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(
+                MaterialTheme
+                    .colorScheme.background
+            )
     ) {
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
@@ -59,7 +85,12 @@ fun CategoryRecipeScreen(recipe: Recipe) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(
-                    onClick = {},
+                    onClick = {
+                        println("navega...")
+                        navController!!.navigate(
+                            route = Destination.HomeScreen.createRoute("")
+                        )
+                    },
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
@@ -72,11 +103,12 @@ fun CategoryRecipeScreen(recipe: Recipe) {
             }
             Column(
                 modifier = Modifier
-                    .fillMaxSize().weight(1f)
+                    .fillMaxSize()
+                    .weight(1f)
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Category name",
+                    text = categoryName,
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(horizontal = 16.dp)
@@ -105,22 +137,37 @@ fun CategoryRecipeScreen(recipe: Recipe) {
                         }
                     },
                     placeholder = {
-                        Text(text = stringResource(br.com.fiap.recipes.R.string.search_by_recipes))
+                        Text(text = stringResource(R.string.search_by_recipes))
                     }
                 )
                 LazyColumn(
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    contentPadding = PaddingValues(
+                        horizontal = 16.dp, vertical = 16.dp
+                    ),
+                    verticalArrangement = Arrangement
+                        .spacedBy(8.dp)
                 ) {
-                    items(20) {
-                        CategoryRecipe(recipe)
+                    if (recipesByCategory.isNotEmpty()) {
+                        items(recipesByCategory) { recipe ->
+                            CategoryRecipe(recipe)
+                        }
+                    } else {
+                        item {
+                            Text(
+                                text = "There are no recipes in this category.",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        }
                     }
                 }
             }
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom,
-                modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
             ) { BottomStartCard() }
         }
     }
@@ -133,14 +180,15 @@ fun CategoryRecipe(recipe: Recipe) {
             .fillMaxWidth()
             .height(130.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primary
+            containerColor = MaterialTheme
+                .colorScheme.primary
         )
     ) {
         Row(
             horizontalArrangement = Arrangement.Start,
             modifier = Modifier
                 .fillMaxSize()
-        ){
+        ) {
             Image(
                 painter = painterResource(recipe.image!!),
                 contentDescription = "",
@@ -149,7 +197,10 @@ fun CategoryRecipe(recipe: Recipe) {
             )
             Column(
                 verticalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.padding(8.dp).weight(4f).fillMaxSize()
+                modifier = Modifier
+                    .padding(8.dp)
+                    .weight(4f)
+                    .fillMaxSize()
             ) {
                 Text(
                     text = recipe.name,
@@ -161,12 +212,16 @@ fun CategoryRecipe(recipe: Recipe) {
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimary,
                     lineHeight = 15.sp,
-                    modifier = Modifier.padding(top = 8.dp).fillMaxWidth().weight(1f)
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxWidth()
+                        .weight(1f)
                 )
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -190,7 +245,10 @@ fun CategoryRecipe(recipe: Recipe) {
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.tertiary
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(
+                            modifier = Modifier
+                                .width(8.dp)
+                        )
                         Text(
                             text = "${recipe.cookingTime} min",
                             style = MaterialTheme.typography.labelSmall
@@ -214,6 +272,6 @@ private fun CategoryRecipePreview() {
 @Composable
 private fun CategoryRecipeScreenPreview() {
     RecipesTheme {
-        CategoryRecipeScreen(getAllRecipes()[0])
+        CategoryRecipeScreen(null, null)
     }
 }
