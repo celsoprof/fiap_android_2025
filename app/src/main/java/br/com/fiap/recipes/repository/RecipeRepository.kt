@@ -32,7 +32,7 @@ fun getAllRecipes() = listOf<Recipe>(
     ),
     Recipe(
         id = 3,
-        category = Category(id = 3000, name = "Bakery"),
+        category = Category(id = 4000, name = "Bakery"),
         user = User(id = 300, name = "Patricia Oliveira"),
         difficultLevel = DifficultLevel.ADVANCED,
         name = "Pão de calabresa",
