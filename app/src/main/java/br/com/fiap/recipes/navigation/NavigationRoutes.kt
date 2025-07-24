@@ -22,7 +22,6 @@ fun NavigationRoutes() {
         startDestination = Destination.InitialScreen.route
     ) {
         composable(Destination.InitialScreen.route) { InitialScreen(navController) }
-
         composable(
             route = Destination.HomeScreen.route,
             deepLinks = listOf(
@@ -40,7 +39,6 @@ fun NavigationRoutes() {
             var email = backStackEntry.arguments?.getString("email")
             HomeScreen(email!!, navController)
         }
-
         composable(
             route = Destination.CategoryRecipeScreen.route,
             arguments = listOf(
@@ -52,8 +50,11 @@ fun NavigationRoutes() {
             var categoryId = backStackEntry.arguments?.getInt("id")
             CategoryRecipeScreen(categoryId, navController)
         }
-
-        composable(Destination.SignupScreen.route) { SignupScreen() }
-        composable(Destination.LoginScreen.route) { LoginScreen(navController) }
+        composable(Destination.SignupScreen.route) {
+            SignupScreen(navController)
+        }
+        composable(Destination.LoginScreen.route) {
+            LoginScreen(navController)
+        }
     }
 }
