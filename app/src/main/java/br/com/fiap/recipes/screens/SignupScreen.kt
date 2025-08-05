@@ -18,6 +18,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.RemoveRedEye
@@ -175,13 +176,13 @@ fun SignupUserForm(navController: NavHostController) {
 
     // Variáveis de estado para controlar
     // se os dados estão corretos
-    var nameError by remember { mutableStateOf(false) }
-    var emailError by remember { mutableStateOf(false) }
-    var passwordError by remember { mutableStateOf(false) }
+    var isNameError by remember { mutableStateOf(false) }
+    var isEmailError by remember { mutableStateOf(false) }
+    var isPasswordError by remember { mutableStateOf(false) }
 
     // Variável de estado, que controla a exibição
     // da caixa de diálogo de erro de validação
-    var dialogError by remember { mutableStateOf<String?>(null) }
+    var showDialogError by remember { mutableStateOf<String?>(null) }
 
     // Variável de estado que controla a exibição
     // da caixa de diálogo de confirmação de cadastro
@@ -189,10 +190,10 @@ fun SignupUserForm(navController: NavHostController) {
 
     // Função de validação dos dados digitados
     fun validate(): Boolean {
-        nameError = name.length < 3
-        emailError = email.length < 3 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()
-        passwordError = password.length < 3
-        return !nameError && !emailError && !passwordError
+        isNameError = name.length < 3
+        isEmailError = email.length < 3 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        isPasswordError = password.length < 3
+        return !isNameError && !isEmailError && !isPasswordError
     }
 
     // Criar uma instância da classe SharedPreferencesUserRepository
@@ -236,9 +237,14 @@ fun SignupUserForm(navController: NavHostController) {
                 capitalization = KeyboardCapitalization.Words,
                 imeAction = ImeAction.Next
             ),
-            isError = nameError,
+            isError = isNameError,
+            trailingIcon = {
+                if (isNameError){
+                    Icon(imageVector = Icons.Default.Error, contentDescription = "")
+                }
+            },
             supportingText = {
-                if (nameError) {
+                if (isNameError) {
                     Text(
                         text = stringResource(R.string.username_is_required),
                         modifier = Modifier.fillMaxWidth(),
@@ -280,9 +286,14 @@ fun SignupUserForm(navController: NavHostController) {
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
             ),
-            isError = emailError,
+            isError = isEmailError,
+            trailingIcon = {
+                if (isEmailError){
+                    Icon(imageVector = Icons.Default.Error, contentDescription = "")
+                }
+            },
             supportingText = {
-                if (emailError) {
+                if (isEmailError) {
                     Text(
                         text = stringResource(R.string.email_is_required),
                         modifier = Modifier.fillMaxWidth(),
@@ -319,20 +330,24 @@ fun SignupUserForm(navController: NavHostController) {
                     tint = MaterialTheme.colorScheme.tertiary
                 )
             },
-            trailingIcon = {
-                Icon(
-                    imageVector = Icons.Default.RemoveRedEye,
-                    contentDescription = "",
-                    tint = MaterialTheme.colorScheme.tertiary
-                )
-            },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.NumberPassword,
                 imeAction = ImeAction.Done
             ),
-            isError = passwordError,
+            isError = isPasswordError,
+            trailingIcon = {
+                if(isPasswordError){
+                    Icon(imageVector = Icons.Default.Error, contentDescription = "")
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.RemoveRedEye,
+                        contentDescription = "",
+                        tint = MaterialTheme.colorScheme.tertiary
+                    )
+                }
+            },
             supportingText = {
-                if (passwordError) {
+                if (isPasswordError) {
                     Text(
                         text = stringResource(R.string.password_is_required),
                         modifier = Modifier.fillMaxWidth(),
@@ -353,7 +368,7 @@ fun SignupUserForm(navController: NavHostController) {
                     // cadastro ocorreu com sucesso
                     showDialogSuccess = true
                 } else {
-                    dialogError = "Error"
+                    showDialogError = "Error"
                 }
             },
             modifier = Modifier
@@ -371,7 +386,7 @@ fun SignupUserForm(navController: NavHostController) {
     // Mostra a mensagem de cadastro efetuado com sucesso
     if (showDialogSuccess){
         AlertDialog(
-            onDismissRequest = { dialogError = null },
+            onDismissRequest = { showDialogError = null },
             title = { Text(stringResource(R.string.sucesso))},
             text = { Text(stringResource(R.string.registration_completed_successfully))},
             confirmButton = {
@@ -383,9 +398,9 @@ fun SignupUserForm(navController: NavHostController) {
     }
 
     // Mostra a mensagem de erro de validação
-    if (dialogError != null) {
+    if (showDialogError != null) {
         AlertDialog(
-            onDismissRequest = { dialogError = null },
+            onDismissRequest = { showDialogError = null },
             title = {
                 Text(
                     text = stringResource(R.string.validation_error)
@@ -397,7 +412,7 @@ fun SignupUserForm(navController: NavHostController) {
                 )
             },
             confirmButton = {
-                TextButton(onClick = { dialogError = null }) {
+                TextButton(onClick = { showDialogError = null }) {
                     Text("OK")
                 }
             }

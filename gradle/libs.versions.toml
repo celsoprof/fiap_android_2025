@@ -8,15 +8,15 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.9.1"
 activityCompose = "1.10.1"
 composeBom = "2025.06.01"
-
-# Versões do Navigation Compose
-# e Kotlinx Serialization Json,
-# que serão utilizadas na seção [libraries]
+ksp = "2.2.0-2.0.2"
 navigationCompose = "2.9.0"
-#kotlinxSerializationJson = "1.7.3"
 
+# Room
+roomRuntime = "2.7.2"
 
 [libraries]
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -42,6 +42,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 
 # Plugin do Kotlin para utilizar o Kotlinx Serialization
 #kotlinx-serialization-json = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
