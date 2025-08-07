@@ -10,5 +10,5 @@ data class User(
     val name: String = "",
     val email: String = "",
     val password: String = "",
-    @ColumnInfo(name = "user_image") val userImage: ByteArray?
+    @ColumnInfo(name = "user_image") val userImage: ByteArray? = null
 )

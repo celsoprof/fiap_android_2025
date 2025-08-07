@@ -19,6 +19,9 @@ interface UserDao {
     @Update
     fun update(user: User): Int
 
+    @Query("SELECT * FROM tb_user WHERE id = :id LIMIT 1")
+    fun getUserById(id: Int): User
+
     @Query("SELECT * FROM tb_user WHERE " +
             "email = :email AND password = :password LIMIT 1")
     fun login(email: String, password: String): User?
