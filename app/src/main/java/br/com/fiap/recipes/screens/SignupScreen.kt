@@ -1,9 +1,20 @@
 package br.com.fiap.recipes.screens
 
 import android.content.res.Configuration
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Patterns
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -37,8 +49,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -50,13 +64,54 @@ import androidx.navigation.NavHostController
 import br.com.fiap.recipes.R
 import br.com.fiap.recipes.model.User
 import br.com.fiap.recipes.navigation.Destination
+import br.com.fiap.recipes.repository.RoomUserRepository
 import br.com.fiap.recipes.repository.SharedPreferencesUserRepository
 import br.com.fiap.recipes.repository.UserRepository
 import br.com.fiap.recipes.ui.theme.RecipesTheme
+import br.com.fiap.recipes.utils.convertBitmapToByteArray
 
 // *** Tela SignupScreen ***
 @Composable
 fun SignupScreen(navController: NavHostController) {
+
+    val context = LocalContext.current
+
+    // Criar uma variável que armazena uma
+    // imagem default para o perfil
+    val placeholderImage = BitmapFactory
+        .decodeResource(
+            Resources.getSystem(),
+            android.R.drawable.ic_menu_gallery
+        )
+
+    // Armazenar a imagem de profile
+    // em uma variável de estado do tipo Bitmap
+    var profileImage by remember {
+        mutableStateOf<Bitmap>(placeholderImage)
+    }
+
+    // Criar um lançador de atividade para
+    // abrir a galeria de imagens
+    val launchImage = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) {uri ->
+        if (Build.VERSION.SDK_INT < 28){
+            profileImage = MediaStore
+                .Images
+                .Media
+                .getBitmap(
+                    context.contentResolver,
+                    uri
+                )
+        } else {
+            if (uri != null){
+                val source = ImageDecoder.createSource(context.contentResolver, uri)
+                profileImage = ImageDecoder.decodeBitmap(source)
+            } else{
+                profileImage = placeholderImage
+            }
+        }
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -74,10 +129,13 @@ fun SignupScreen(navController: NavHostController) {
         ) {
             TitleComponent()
             Spacer(modifier = Modifier.height(48.dp))
-            UserImage()
-            SignupUserForm(navController)
-        }
 
+            UserImage(
+                profileImage = profileImage,
+                launchImage = launchImage
+            )
+            SignupUserForm(navController, profileImage)
+        }
     }
 }
 
@@ -129,17 +187,22 @@ private fun TitleComponentPreview() {
 // TRECHO DE CÓDIGO FONTE OMITIDO...
 // *** Componente 2 - Imagem do usuário
 @Composable
-fun UserImage(modifier: Modifier = Modifier) {
+fun UserImage(
+    profileImage: Bitmap?,
+    launchImage: ManagedActivityResultLauncher<String, Uri?>
+) {
     Box(
         modifier = Modifier
             .size(120.dp)
     ) {
         Image(
-            painter = painterResource(R.drawable.user),
+            bitmap = profileImage?.asImageBitmap()!!,
             contentDescription = "",
             modifier = Modifier
+                .clip(CircleShape)
                 .size(110.dp)
-                .align(Alignment.Center)
+                .align(Alignment.Center),
+            contentScale = ContentScale.Crop
         )
         Icon(
             imageVector = Icons.Default.AddAPhoto,
@@ -147,6 +210,9 @@ fun UserImage(modifier: Modifier = Modifier) {
             contentDescription = "",
             modifier = Modifier
                 .align(Alignment.BottomEnd)
+                .clickable(onClick = {
+                    launchImage.launch("image/*")
+                })
         )
     }
 }
@@ -159,14 +225,17 @@ fun UserImage(modifier: Modifier = Modifier) {
 @Composable
 private fun UserImagePreview() {
     RecipesTheme {
-        UserImage()
+       // UserImage(null, onProfileImageChange = {})
     }
 }
 
 // TRECHO DE CÓDIGO FONTE OMITIDO...
 // *** Componente 3 - Formulário do Usuário
 @Composable
-fun SignupUserForm(navController: NavHostController) {
+fun SignupUserForm(
+    navController: NavHostController,
+    profileImage: Bitmap
+) {
 
     // Variáveis de estado para controlar
     // os valores exibidos nos OutlinedTextFields
@@ -197,7 +266,8 @@ fun SignupUserForm(navController: NavHostController) {
     }
 
     // Criar uma instância da classe SharedPreferencesUserRepository
-    val userRepository: UserRepository = SharedPreferencesUserRepository(LocalContext.current)
+    //val userRepository: UserRepository = SharedPreferencesUserRepository(LocalContext.current)
+    val userRepository = RoomUserRepository(LocalContext.current)
 
     Column(
         modifier = Modifier
@@ -362,8 +432,16 @@ fun SignupUserForm(navController: NavHostController) {
         Button(
             onClick = {
                 if (validate()) {
-                    userRepository
-                        .saveUser(User(name = name, email = email, password = password))
+                    // Criação de um objeto User
+                    val user = User(
+                        name = name,
+                        email = email,
+                        password = password,
+                        userImage = convertBitmapToByteArray(profileImage)
+                    )
+                    userRepository.saveUser(user)
+                    //userRepository
+                    //    .saveUser(User(name = name, email = email, password = password))
                     // Abrir o dialog informando que o
                     // cadastro ocorreu com sucesso
                     showDialogSuccess = true

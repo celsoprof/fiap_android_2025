@@ -19,7 +19,7 @@ class SharedPreferencesUserRepository(context: Context) : UserRepository {
             .apply()
     }
 
-    override fun getUser(): User {
+    override fun getUser(id: Int): User {
         val namePrefs = userPrefs.getString("name", "")
         val emailPrefs = userPrefs.getString("email", "")
         val passwordPrefs = userPrefs.getString("password", "")

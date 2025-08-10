@@ -11,7 +11,7 @@ import br.com.fiap.recipes.model.User
 interface UserDao {
 
     @Insert
-    fun save(user: User): Int
+    fun save(user: User)
 
     @Delete
     fun delete(user: User): Int
