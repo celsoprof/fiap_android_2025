@@ -17,6 +17,10 @@ class RoomUserRepository(context: Context): UserRepository {
         return recipeDatabase.getUserById(id)
     }
 
+    override fun getUserByEmail(email: String): User {
+        return recipeDatabase.getUserByEmail(email)
+    }
+
     override fun login(email: String, password: String): Boolean {
         val user = recipeDatabase.login(email, password)
         return user != null

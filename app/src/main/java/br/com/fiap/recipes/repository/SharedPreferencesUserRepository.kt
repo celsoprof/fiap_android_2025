@@ -31,6 +31,10 @@ class SharedPreferencesUserRepository(context: Context) : UserRepository {
         )
     }
 
+    override fun getUserByEmail(email: String): User {
+        TODO("Not yet implemented")
+    }
+
     override fun login(
         email: String,
         password: String

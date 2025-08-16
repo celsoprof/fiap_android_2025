@@ -2,6 +2,7 @@ package br.com.fiap.recipes.screens
 
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -439,12 +440,19 @@ fun SignupUserForm(
                         password = password,
                         userImage = convertBitmapToByteArray(profileImage)
                     )
-                    userRepository.saveUser(user)
+                    try {
+                        userRepository.saveUser(user)
+                        showDialogSuccess = true
+                    } catch (e: SQLiteConstraintException){
+                        isEmailError = true
+                        showDialogError = "Error"
+                    }
+
                     //userRepository
                     //    .saveUser(User(name = name, email = email, password = password))
                     // Abrir o dialog informando que o
                     // cadastro ocorreu com sucesso
-                    showDialogSuccess = true
+//                    showDialogSuccess = true
                 } else {
                     showDialogError = "Error"
                 }

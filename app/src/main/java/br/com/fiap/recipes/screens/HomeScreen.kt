@@ -1,6 +1,7 @@
 package br.com.fiap.recipes.screens
 
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -40,9 +41,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -56,11 +62,13 @@ import br.com.fiap.recipes.R
 import br.com.fiap.recipes.components.CategoryItem
 import br.com.fiap.recipes.components.RecipeItem
 import br.com.fiap.recipes.navigation.Destination
+import br.com.fiap.recipes.repository.RoomUserRepository
 import br.com.fiap.recipes.repository.SharedPreferencesUserRepository
 import br.com.fiap.recipes.repository.UserRepository
 import br.com.fiap.recipes.repository.getAllCategories
 import br.com.fiap.recipes.repository.getAllRecipes
 import br.com.fiap.recipes.ui.theme.RecipesTheme
+import br.com.fiap.recipes.utils.convertByteArrayToBitmap
 
 @Composable
 fun HomeScreen(email: String, navController: NavController) {
@@ -230,8 +238,16 @@ private fun ContentScreenPreview() {
 fun MyTopAppBar(email: String = "") {
 
     // Criar uma instância da classe SharedPreferencesUserRepository
-    val userRepository: UserRepository = SharedPreferencesUserRepository(LocalContext.current)
-    val user = userRepository.getUser()
+    //val userRepository: UserRepository = SharedPreferencesUserRepository(LocalContext.current)
+    val userRepository: UserRepository = RoomUserRepository(LocalContext.current)
+    val user = userRepository.getUserByEmail(email)
+
+    // variáveis de estado para exibir a imagem do usuário
+    var bitmap by remember {
+        mutableStateOf<Bitmap?>(
+            convertByteArrayToBitmap(user.userImage!!)
+        )
+    }
 
     TopAppBar(
         modifier = Modifier
@@ -268,11 +284,16 @@ fun MyTopAppBar(email: String = "") {
                     border = BorderStroke(
                         width = 1.dp,
                         color = MaterialTheme.colorScheme.primary
-                    )
+                    ),
+                    modifier = Modifier.size(48.dp)
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.user),
-                        contentDescription = ""
+                        //painter = painterResource(R.drawable.user),
+                        bitmap = bitmap!!.asImageBitmap(),
+                        contentDescription = "",
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
                     )
                 }
             }

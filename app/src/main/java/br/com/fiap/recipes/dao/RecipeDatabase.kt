@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import br.com.fiap.recipes.model.User
 
-@Database(entities = [User::class], version = 1)
+@Database(entities = [User::class], version = 2)
 abstract class RecipeDatabase: RoomDatabase() {
 
     abstract fun userDao(): UserDao
