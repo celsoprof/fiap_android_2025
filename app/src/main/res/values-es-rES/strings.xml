@@ -5,11 +5,14 @@
     <string name="button_login">Acceder</string>
     <string name="button_signup">Crear cuenta</string>
     <string name="signup_subtitle">Sign up</string>
+    <string name="user_profile_details">User profile details</string>
     <string name="sign_up">Sign up</string>
+    <string name="profile">Profile</string>
     <string name="your_name">Your name</string>
     <string name="your_e_mail">Your e-mail</string>
     <string name="your_password">Your password</string>
     <string name="create_account">Create account</string>
+    <string name="update_profile">Update profile</string>
     <string name="login">Login</string>
     <string name="please_sign_in_to_continue">Please, sign in to continue</string>
     <string name="sign_in">SIGN IN</string>

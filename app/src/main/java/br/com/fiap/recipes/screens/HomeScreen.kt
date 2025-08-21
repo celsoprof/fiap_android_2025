@@ -4,11 +4,11 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -63,7 +63,6 @@ import br.com.fiap.recipes.components.CategoryItem
 import br.com.fiap.recipes.components.RecipeItem
 import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.repository.RoomUserRepository
-import br.com.fiap.recipes.repository.SharedPreferencesUserRepository
 import br.com.fiap.recipes.repository.UserRepository
 import br.com.fiap.recipes.repository.getAllCategories
 import br.com.fiap.recipes.repository.getAllRecipes
@@ -75,7 +74,7 @@ fun HomeScreen(email: String, navController: NavController) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             topBar = {
-                MyTopAppBar(email)
+                MyTopAppBar(email, navController)
             },
             bottomBar = {
                 MyBottomAppBar()
@@ -235,7 +234,7 @@ private fun ContentScreenPreview() {
 // *** TopAppBar ***
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopAppBar(email: String = "") {
+fun MyTopAppBar(email: String = "", navController: NavController) {
 
     // Criar uma instância da classe SharedPreferencesUserRepository
     //val userRepository: UserRepository = SharedPreferencesUserRepository(LocalContext.current)
@@ -286,6 +285,9 @@ fun MyTopAppBar(email: String = "") {
                         color = MaterialTheme.colorScheme.primary
                     ),
                     modifier = Modifier.size(48.dp)
+                        .clickable(
+                            onClick = { navController.navigate("profile")}
+                        )
                 ) {
                     Image(
                         //painter = painterResource(R.drawable.user),
@@ -309,7 +311,7 @@ fun MyTopAppBar(email: String = "") {
 @Composable
 private fun MyTopAppBarPreview() {
     RecipesTheme {
-        MyTopAppBar()
+        //MyTopAppBar("", navController = navController)
     }
 }
 

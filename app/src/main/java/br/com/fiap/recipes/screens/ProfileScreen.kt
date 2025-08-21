@@ -66,14 +66,12 @@ import br.com.fiap.recipes.R
 import br.com.fiap.recipes.model.User
 import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.repository.RoomUserRepository
-import br.com.fiap.recipes.repository.SharedPreferencesUserRepository
-import br.com.fiap.recipes.repository.UserRepository
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 import br.com.fiap.recipes.utils.convertBitmapToByteArray
 
 // *** Tela SignupScreen ***
 @Composable
-fun SignupScreen(navController: NavHostController?) {
+fun ProfileScreen(navController: NavHostController?) {
 
     val context = LocalContext.current
 
@@ -128,14 +126,14 @@ fun SignupScreen(navController: NavHostController?) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TitleComponent()
+            ProfileTitleComponent()
             Spacer(modifier = Modifier.height(48.dp))
 
             UserImage(
                 profileImage = profileImage,
                 launchImage = launchImage
             )
-            SignupUserForm(navController, profileImage)
+            ProfileUserForm(navController, profileImage)
         }
     }
 }
@@ -146,26 +144,26 @@ fun SignupScreen(navController: NavHostController?) {
     locale = "en"
 )
 @Composable
-private fun SignupScreenPreview() {
+private fun ProfileScreenPreview() {
     RecipesTheme {
-        SignupScreen(null)
+        ProfileScreen(null)
     }
 }
 
 // *** Componente 1 - Título da tela ***
 @Composable
-fun TitleComponent(modifier: Modifier = Modifier) {
+fun ProfileTitleComponent(modifier: Modifier = Modifier) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.sign_up),
+            text = stringResource(R.string.profile),
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleLarge
         )
         Text(
-            text = stringResource(R.string.signup_subtitle),
+            text = stringResource(R.string.user_profile_details),
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleSmall
         )
@@ -178,17 +176,17 @@ fun TitleComponent(modifier: Modifier = Modifier) {
     locale = "en"
 )
 @Composable
-private fun TitleComponentPreview() {
+private fun ProfileTitleComponentPreview() {
     RecipesTheme {
-        TitleComponent()
+        ProfileTitleComponent()
     }
 
 }
-
-// TRECHO DE CÓDIGO FONTE OMITIDO...
-// *** Componente 2 - Imagem do usuário
+//
+//// TRECHO DE CÓDIGO FONTE OMITIDO...
+//// *** Componente 2 - Imagem do usuário
 @Composable
-fun UserImage(
+fun ProfileUserImage(
     profileImage: Bitmap?,
     launchImage: ManagedActivityResultLauncher<String, Uri?>
 ) {
@@ -224,7 +222,7 @@ fun UserImage(
     locale = "en"
 )
 @Composable
-private fun UserImagePreview() {
+private fun ProfileUserImagePreview() {
     RecipesTheme {
        // UserImage(null, onProfileImageChange = {})
     }
@@ -233,7 +231,7 @@ private fun UserImagePreview() {
 // TRECHO DE CÓDIGO FONTE OMITIDO...
 // *** Componente 3 - Formulário do Usuário
 @Composable
-fun SignupUserForm(
+fun ProfileUserForm(
     navController: NavHostController?,
     profileImage: Bitmap?
 ) {
@@ -463,7 +461,7 @@ fun SignupUserForm(
             shape = RoundedCornerShape(8.dp),
         ) {
             Text(
-                text = stringResource(R.string.create_account),
+                text = stringResource(R.string.update_profile),
                 style = MaterialTheme.typography.labelMedium
             )
         }
@@ -512,8 +510,8 @@ fun SignupUserForm(
     locale = "en"
 )
 @Composable
-private fun SignupUserFormPreview() {
+private fun ProfileUserFormPreview() {
     RecipesTheme {
-        SignupUserForm(null, null)
+        ProfileUserForm(null, null)
     }
 }
