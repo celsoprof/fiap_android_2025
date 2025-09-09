@@ -54,8 +54,15 @@ fun NavigationRoutes() {
         composable(Destination.SignupScreen.route) {
             SignupScreen(navController)
         }
-        composable(Destination.ProfileScreen.route) {
-            ProfileScreen(navController)
+        composable(
+            route = Destination.ProfileScreen.route,
+            arguments = listOf(
+                navArgument(name = "email") {
+                    type = NavType.StringType
+                }
+            )) { backStackEntry ->
+            var email = backStackEntry.arguments?.getString("email")
+            ProfileScreen(navController, email!!)
         }
         composable(Destination.LoginScreen.route) {
             LoginScreen(navController)

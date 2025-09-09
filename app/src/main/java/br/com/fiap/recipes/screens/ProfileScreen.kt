@@ -66,12 +66,13 @@ import br.com.fiap.recipes.R
 import br.com.fiap.recipes.model.User
 import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.repository.RoomUserRepository
+import br.com.fiap.recipes.repository.UserRepository
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 import br.com.fiap.recipes.utils.convertBitmapToByteArray
 
 // *** Tela SignupScreen ***
 @Composable
-fun ProfileScreen(navController: NavHostController?) {
+fun ProfileScreen(navController: NavHostController?, email: String) {
 
     val context = LocalContext.current
 
@@ -133,7 +134,7 @@ fun ProfileScreen(navController: NavHostController?) {
                 profileImage = profileImage,
                 launchImage = launchImage
             )
-            ProfileUserForm(navController, profileImage)
+            ProfileUserForm(navController, profileImage, email)
         }
     }
 }
@@ -146,7 +147,7 @@ fun ProfileScreen(navController: NavHostController?) {
 @Composable
 private fun ProfileScreenPreview() {
     RecipesTheme {
-        ProfileScreen(null)
+        ProfileScreen(null, "")
     }
 }
 
@@ -233,14 +234,22 @@ private fun ProfileUserImagePreview() {
 @Composable
 fun ProfileUserForm(
     navController: NavHostController?,
-    profileImage: Bitmap?
+    profileImage: Bitmap?,
+    email: String
 ) {
+
+    // Criar uma instância da classe SharedPreferencesUserRepository
+    //val userRepository: UserRepository = SharedPreferencesUserRepository(LocalContext.current)
+    val userRepository = RoomUserRepository(LocalContext.current)
+
+    // Carregando os dados do usuário
+    val user = userRepository.getUserByEmail(email)
 
     // Variáveis de estado para controlar
     // os valores exibidos nos OutlinedTextFields
-    var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf(user.name) }
+    var email by remember { mutableStateOf(user.email) }
+    var password by remember { mutableStateOf(user.password) }
 
     // Variáveis de estado para controlar
     // se os dados estão corretos
@@ -263,10 +272,6 @@ fun ProfileUserForm(
         isPasswordError = password.length < 3
         return !isNameError && !isEmailError && !isPasswordError
     }
-
-    // Criar uma instância da classe SharedPreferencesUserRepository
-    //val userRepository: UserRepository = SharedPreferencesUserRepository(LocalContext.current)
-    val userRepository = RoomUserRepository(LocalContext.current)
 
     Column(
         modifier = Modifier
@@ -512,6 +517,6 @@ fun ProfileUserForm(
 @Composable
 private fun ProfileUserFormPreview() {
     RecipesTheme {
-        ProfileUserForm(null, null)
+        ProfileUserForm(null, null, "")
     }
 }

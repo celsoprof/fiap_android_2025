@@ -286,7 +286,7 @@ fun MyTopAppBar(email: String = "", navController: NavController) {
                     ),
                     modifier = Modifier.size(48.dp)
                         .clickable(
-                            onClick = { navController.navigate("profile")}
+                            onClick = { navController.navigate("profile/${user.email}")}
                         )
                 ) {
                     Image(
