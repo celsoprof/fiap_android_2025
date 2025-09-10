@@ -33,4 +33,9 @@
     <string name="registration_completed_successfully">Registration completed successfully. Click \'Log In\' to return to the home screen.</string>
     <string name="log_in">Log In</string>
     <string name="authentication_error">Authentication error!</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="ok">OK</string>
+    <string name="delete_user">User removal</string>
+    <string name="cancel">Cancel</string>
+    <string name="removal_confirmation">Are you sure you want to delete the user?</string>
 </resources>

@@ -10,10 +10,12 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Patterns
+import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.MarqueeSpacing
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,6 +39,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -235,7 +238,7 @@ private fun ProfileUserImagePreview() {
 fun ProfileUserForm(
     navController: NavHostController?,
     profileImage: Bitmap?,
-    email: String
+    email: String = ""
 ) {
 
     // Criar uma instância da classe SharedPreferencesUserRepository
@@ -243,7 +246,7 @@ fun ProfileUserForm(
     val userRepository = RoomUserRepository(LocalContext.current)
 
     // Carregando os dados do usuário
-    val user = userRepository.getUserByEmail(email)
+    var user = userRepository.getUserByEmail(email)
 
     // Variáveis de estado para controlar
     // os valores exibidos nos OutlinedTextFields
@@ -264,6 +267,10 @@ fun ProfileUserForm(
     // Variável de estado que controla a exibição
     // da caixa de diálogo de confirmação de cadastro
     var showDialogSuccess by remember { mutableStateOf(false) }
+
+    // Variável de estado que controla a exibição
+    // da caixa de diálogo de confirmação de exclusão
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     // Função de validação dos dados digitados
     fun validate(): Boolean {
@@ -431,31 +438,26 @@ fun ProfileUserForm(
                 }
             }
         )
-        // Botão Create account
-        Spacer(modifier = Modifier.height(32.dp))
+        // Botão Update profile
+        Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
                 if (validate()) {
-                    // Criação de um objeto User
-                    val user = User(
+                    // Atualização do objeto User
+                    user = User(
+                        id = user.id,
                         name = name,
                         email = email,
                         password = password,
                         userImage = convertBitmapToByteArray(profileImage!!)
                     )
                     try {
-                        userRepository.saveUser(user)
+                        userRepository.updateUser(user)
                         showDialogSuccess = true
                     } catch (e: SQLiteConstraintException){
                         isEmailError = true
                         showDialogError = "Error"
                     }
-
-                    //userRepository
-                    //    .saveUser(User(name = name, email = email, password = password))
-                    // Abrir o dialog informando que o
-                    // cadastro ocorreu com sucesso
-//                    showDialogSuccess = true
                 } else {
                     showDialogError = "Error"
                 }
@@ -470,6 +472,59 @@ fun ProfileUserForm(
                 style = MaterialTheme.typography.labelMedium
             )
         }
+        // Botão Delete profile
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = {
+                showDeleteDialog = true
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.tertiary
+            )
+        ) {
+            Text(
+                text = "Delete profile",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onTertiary
+            )
+        }
+    }
+
+    // Mostra a mensagem para confirmar exclusão
+    if (showDeleteDialog != false) {
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog = false },
+            title = {
+                Text(
+                    text = stringResource(R.string.delete_user)
+                )
+            },
+            text = {
+                Text(
+                    text = stringResource(R.string.removal_confirmation)
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    showDeleteDialog = false
+                    userRepository.deleteUser(user)
+                    //navController!!.navigate(Destination.LoginScreen.route)
+                }) {
+                    Text(text = stringResource(R.string.ok))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    showDeleteDialog = false
+                }) {
+                    Text(text = stringResource(R.string.cancel))
+                }
+            }
+        )
     }
 
     // Mostra a mensagem de cadastro efetuado com sucesso
