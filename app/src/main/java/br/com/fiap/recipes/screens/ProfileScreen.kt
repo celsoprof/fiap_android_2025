@@ -10,12 +10,10 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Patterns
-import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.MarqueeSpacing
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -69,7 +67,6 @@ import br.com.fiap.recipes.R
 import br.com.fiap.recipes.model.User
 import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.repository.RoomUserRepository
-import br.com.fiap.recipes.repository.UserRepository
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 import br.com.fiap.recipes.utils.convertBitmapToByteArray
 
@@ -250,9 +247,9 @@ fun ProfileUserForm(
 
     // Variáveis de estado para controlar
     // os valores exibidos nos OutlinedTextFields
-    var name by remember { mutableStateOf(user.name) }
-    var email by remember { mutableStateOf(user.email) }
-    var password by remember { mutableStateOf(user.password) }
+    var name by remember { mutableStateOf(user!!.name) }
+    var email by remember { mutableStateOf(user!!.email) }
+    var password by remember { mutableStateOf(user!!.password) }
 
     // Variáveis de estado para controlar
     // se os dados estão corretos
@@ -445,7 +442,7 @@ fun ProfileUserForm(
                 if (validate()) {
                     // Atualização do objeto User
                     user = User(
-                        id = user.id,
+                        id = user!!.id,
                         name = name,
                         email = email,
                         password = password,
@@ -511,7 +508,9 @@ fun ProfileUserForm(
             confirmButton = {
                 TextButton(onClick = {
                     showDeleteDialog = false
-                    userRepository.deleteUser(user)
+                    if (user != null){
+                        userRepository.deleteUser(user)
+                    }
                     //navController!!.navigate(Destination.LoginScreen.route)
                 }) {
                     Text(text = stringResource(R.string.ok))

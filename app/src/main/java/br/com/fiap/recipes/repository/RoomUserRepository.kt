@@ -17,7 +17,7 @@ class RoomUserRepository(context: Context): UserRepository {
         return recipeDatabase.getUserById(id)
     }
 
-    override fun getUserByEmail(email: String): User {
+    override fun getUserByEmail(email: String): User? {
         return recipeDatabase.getUserByEmail(email)
     }
 
@@ -33,4 +33,7 @@ class RoomUserRepository(context: Context): UserRepository {
     override fun deleteUser(user: User) {
         recipeDatabase.delete(user)
     }
+
+
+
 }

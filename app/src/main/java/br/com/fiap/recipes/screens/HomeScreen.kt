@@ -244,7 +244,7 @@ fun MyTopAppBar(email: String = "", navController: NavController) {
     // variáveis de estado para exibir a imagem do usuário
     var bitmap by remember {
         mutableStateOf<Bitmap?>(
-            convertByteArrayToBitmap(user.userImage!!)
+            convertByteArrayToBitmap(user!!.userImage!!)
         )
     }
 
@@ -264,7 +264,7 @@ fun MyTopAppBar(email: String = "", navController: NavController) {
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        text = user.name,
+                        text = user!!.name,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold
@@ -286,7 +286,7 @@ fun MyTopAppBar(email: String = "", navController: NavController) {
                     ),
                     modifier = Modifier.size(48.dp)
                         .clickable(
-                            onClick = { navController.navigate("profile/${user.email}")}
+                            onClick = { navController.navigate("profile/${user!!.email}")}
                         )
                 ) {
                     Image(
