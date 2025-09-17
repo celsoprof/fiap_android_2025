@@ -510,8 +510,8 @@ fun ProfileUserForm(
                     showDeleteDialog = false
                     if (user != null){
                         userRepository.deleteUser(user)
+                        navController!!.navigate(Destination.LoginScreen.route)
                     }
-                    //navController!!.navigate(Destination.LoginScreen.route)
                 }) {
                     Text(text = stringResource(R.string.ok))
                 }

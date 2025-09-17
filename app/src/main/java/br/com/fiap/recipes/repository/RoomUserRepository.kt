@@ -34,6 +34,4 @@ class RoomUserRepository(context: Context): UserRepository {
         recipeDatabase.delete(user)
     }
 
-
-
 }

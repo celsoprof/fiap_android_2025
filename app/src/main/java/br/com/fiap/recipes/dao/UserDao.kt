@@ -23,7 +23,7 @@ interface UserDao {
     fun getUserById(id: Int): User
 
     @Query("SELECT * FROM tb_user WHERE email = :email LIMIT 1")
-    fun getUserByEmail(email: String): User
+    fun getUserByEmail(email: String): User?
 
     @Query("SELECT * FROM tb_user WHERE " +
             "email = :email AND password = :password LIMIT 1")
