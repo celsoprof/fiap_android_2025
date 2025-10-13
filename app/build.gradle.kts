@@ -39,7 +39,7 @@ android {
         compose = true
     }
 }
-
+// TRECHO DE CÓDIGO OMITIDO
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -70,4 +70,11 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
+
+    // Retrofit dependencies
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
+    // Coil dependence
+    implementation("io.coil-kt:coil-compose:2.7.0")
 }
