@@ -45,7 +45,7 @@ import br.com.fiap.recipes.R
 import br.com.fiap.recipes.model.Recipe
 import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.repository.getAllRecipes
-import br.com.fiap.recipes.repository.getCategoryById
+//import br.com.fiap.recipes.repository.getCategoryById
 import br.com.fiap.recipes.repository.getRecipesByCategory
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 
@@ -60,11 +60,11 @@ fun CategoryRecipeScreen(categoryId: Int?, navController: NavHostController?) {
 
     when (recipesByCategory.size) {
         0 -> {
-            categoryName = getCategoryById(categoryId)!!.name
+            categoryName = "Teste"//getCategoryById(categoryId)!!.name
         }
 
         else -> {
-            categoryName = recipesByCategory[0].category.name
+            categoryName = "Teste 2"//recipesByCategory[0].category.name
         }
     }
 

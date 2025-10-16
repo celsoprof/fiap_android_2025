@@ -61,13 +61,19 @@ import androidx.navigation.NavController
 import br.com.fiap.recipes.R
 import br.com.fiap.recipes.components.CategoryItem
 import br.com.fiap.recipes.components.RecipeItem
+import br.com.fiap.recipes.factory.RetrofitClient
+import br.com.fiap.recipes.model.Category
 import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.repository.RoomUserRepository
 import br.com.fiap.recipes.repository.UserRepository
 import br.com.fiap.recipes.repository.getAllCategories
+//import br.com.fiap.recipes.repository.getAllCategories
 import br.com.fiap.recipes.repository.getAllRecipes
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 import br.com.fiap.recipes.utils.convertByteArrayToBitmap
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
 fun HomeScreen(email: String, navController: NavController) {
@@ -120,8 +126,9 @@ fun ContentScreen(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
+    // Carrega a lista de categorias do repositório
+    var categories = getAllCategories()
 
-    val categories = getAllCategories();
     val recipes = getAllRecipes()
 
     Column(

@@ -16,17 +16,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.fiap.recipes.model.Category
 import br.com.fiap.recipes.ui.theme.RecipesTheme
+import coil.compose.AsyncImage
 
 @Composable
 fun CategoryItem(
     category: Category = Category(),
     onClick: () -> Unit
 ) {
+
+    val baseUrl = "http://10.0.2.2:8080/api/recipes"
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -40,7 +44,7 @@ fun CategoryItem(
                 .size(90.dp),
             shape = CircleShape,
             colors = CardDefaults.cardColors(
-                containerColor = category.background
+                containerColor = Color(category.background.toLong(16))
             )
         ) {
             Box(
@@ -48,9 +52,10 @@ fun CategoryItem(
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                Image(
-                    painter = painterResource(category.image!!),
-                    contentDescription = "",
+                println(baseUrl.plus(category.image))
+                AsyncImage(
+                    model = baseUrl.plus(category.image),
+                    contentDescription = category.name,
                     modifier = Modifier.size(45.dp)
                 )
             }
