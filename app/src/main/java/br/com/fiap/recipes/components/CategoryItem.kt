@@ -1,6 +1,5 @@
 package br.com.fiap.recipes.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,20 +16,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.fiap.recipes.factory.RetrofitClient
 import br.com.fiap.recipes.model.Category
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 import coil.compose.AsyncImage
 
+// TRECHO DE CÓDIGO OMITIDO
 @Composable
 fun CategoryItem(
     category: Category = Category(),
     onClick: () -> Unit
 ) {
 
-    val baseUrl = "http://10.0.2.2:8080/api/recipes"
+    val baseUrl = RetrofitClient.BASE_URL.plus("recipes")
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -52,7 +52,6 @@ fun CategoryItem(
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                println(baseUrl.plus(category.image))
                 AsyncImage(
                     model = baseUrl.plus(category.image),
                     contentDescription = category.name,

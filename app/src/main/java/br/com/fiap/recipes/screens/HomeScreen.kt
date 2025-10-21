@@ -128,7 +128,6 @@ fun ContentScreen(
 ) {
     // Carrega a lista de categorias do repositório
     var categories = getAllCategories()
-
     val recipes = getAllRecipes()
 
     Column(
@@ -192,6 +191,7 @@ fun ContentScreen(
                 .padding(vertical = 8.dp)
         ) {
             items(categories) { category ->
+                println("*******+++++ ${category.id}")
                 CategoryItem(
                     category = category,
                     onClick = {

@@ -52,6 +52,7 @@ import br.com.fiap.recipes.ui.theme.RecipesTheme
 @Composable
 fun CategoryRecipeScreen(categoryId: Int?, navController: NavHostController?) {
 
+    println("*******------> $categoryId")
     val recipesByCategory = getRecipesByCategory(
         id = categoryId!!
     )
@@ -60,13 +61,14 @@ fun CategoryRecipeScreen(categoryId: Int?, navController: NavHostController?) {
 
     when (recipesByCategory.size) {
         0 -> {
-            categoryName = "Teste"//getCategoryById(categoryId)!!.name
+            categoryName = ""
         }
-
         else -> {
-            categoryName = "Teste 2"//recipesByCategory[0].category.name
+            categoryName = recipesByCategory[0].category.name
         }
     }
+
+    println("-------*****-------> $categoryName")
 
     Box(
         modifier = Modifier
