@@ -69,6 +69,7 @@ import br.com.fiap.recipes.repository.UserRepository
 import br.com.fiap.recipes.repository.getAllCategories
 //import br.com.fiap.recipes.repository.getAllCategories
 import br.com.fiap.recipes.repository.getAllRecipes
+import br.com.fiap.recipes.repository.getLatestRecipes
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 import br.com.fiap.recipes.utils.convertByteArrayToBitmap
 import retrofit2.Call
@@ -128,7 +129,7 @@ fun ContentScreen(
 ) {
     // Carrega a lista de categorias do repositório
     var categories = getAllCategories()
-    val recipes = getAllRecipes()
+    val latestRecipes = getLatestRecipes()
 
     Column(
         modifier = modifier
@@ -191,7 +192,6 @@ fun ContentScreen(
                 .padding(vertical = 8.dp)
         ) {
             items(categories) { category ->
-                println("*******+++++ ${category.id}")
                 CategoryItem(
                     category = category,
                     onClick = {
@@ -218,7 +218,7 @@ fun ContentScreen(
             ),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(recipes) { recipe ->
+            items(latestRecipes) { recipe ->
                 RecipeItem(recipe)
             }
         }

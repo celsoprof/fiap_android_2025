@@ -1,7 +1,6 @@
 package br.com.fiap.recipes.model
 
-import androidx.annotation.DrawableRes
-import br.com.fiap.recipes.R
+import com.google.gson.annotations.SerializedName
 import java.time.LocalDate
 
 data class Recipe(
@@ -9,9 +8,9 @@ data class Recipe(
     val category: Category,
     val user: User,
     val difficultLevel: DifficultLevel,
-    val name: String = "",
+    @SerializedName("title") val name: String = "",
     val description: String = "",
     val cookingTime: Int = 0,
     val createdAt: LocalDate = LocalDate.now(),
-    @DrawableRes val image: Int? = R.drawable.no_photo,
+    @SerializedName("url") val image: String = ""
 )

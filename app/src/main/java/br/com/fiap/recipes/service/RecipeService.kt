@@ -10,4 +10,7 @@ interface RecipeService {
     @GET("recipes/categories/{categoryId}")
     fun getRecipesByCategoryId(@Path("categoryId") categoryId: Int): Call<List<Recipe>>
 
+    @GET("recipes/recents")
+    fun getLatestRecipes(): Call<List<Recipe>>
+
 }
