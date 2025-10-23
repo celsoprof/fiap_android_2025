@@ -63,6 +63,10 @@ import br.com.fiap.recipes.components.CategoryItem
 import br.com.fiap.recipes.components.RecipeItem
 import br.com.fiap.recipes.factory.RetrofitClient
 import br.com.fiap.recipes.model.Category
+import br.com.fiap.recipes.model.DifficultLevel
+import br.com.fiap.recipes.model.Recipe
+import br.com.fiap.recipes.model.RecipeRequest
+import br.com.fiap.recipes.model.User
 import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.repository.RoomUserRepository
 import br.com.fiap.recipes.repository.UserRepository
@@ -70,11 +74,14 @@ import br.com.fiap.recipes.repository.getAllCategories
 //import br.com.fiap.recipes.repository.getAllCategories
 import br.com.fiap.recipes.repository.getAllRecipes
 import br.com.fiap.recipes.repository.getLatestRecipes
+import br.com.fiap.recipes.repository.saveRecipe
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 import br.com.fiap.recipes.utils.convertByteArrayToBitmap
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
 
 @Composable
 fun HomeScreen(email: String, navController: NavController) {
@@ -88,7 +95,23 @@ fun HomeScreen(email: String, navController: NavController) {
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = {},
+                    onClick = {
+                        val recipeRequest = RecipeRequest(
+                            title = "Frango Android 16",
+                            difficultLevel = DifficultLevel.INTERMEDIATE,
+                            description = "Mais um delicioso prato feito com frango",
+                            cookingTime = 45,
+                            creationDate = LocalDate.now().toString(),
+                            category = Category(1)
+                        )
+                        val json = Gson().toJson(recipeRequest)
+                        println("----------")
+                        println(json)
+                        println("----------")
+
+                        saveRecipe(recipeRequest)
+
+                    },
                     shape = CircleShape,
                     containerColor = MaterialTheme.colorScheme.primary
                 ) {

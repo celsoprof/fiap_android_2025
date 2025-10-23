@@ -9,6 +9,7 @@ import br.com.fiap.recipes.factory.RetrofitClient
 import br.com.fiap.recipes.model.Category
 import br.com.fiap.recipes.model.DifficultLevel
 import br.com.fiap.recipes.model.Recipe
+import br.com.fiap.recipes.model.RecipeRequest
 import br.com.fiap.recipes.model.User
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,6 +41,29 @@ fun getLatestRecipes(): List<Recipe>{
 
     })
     return latestRecipes
+}
+
+fun saveRecipe(recipeRequest: RecipeRequest): RecipeRequest? {
+
+    var newRecipe: RecipeRequest? = RecipeRequest()
+    val callNewRecipe = RetrofitClient.getRecipeSercive().saveRecipe(recipeRequest)
+
+    callNewRecipe.enqueue(object : Callback<RecipeRequest>{
+        override fun onResponse(
+            p0: Call<RecipeRequest?>,
+            response: Response<RecipeRequest?>
+        ) {
+            newRecipe = response.body() ?: null
+        }
+
+        override fun onFailure(
+            p0: Call<RecipeRequest?>,
+            p1: Throwable
+        ) {
+            println(p1.message)
+        }
+    })
+    return newRecipe
 }
 
 fun getAllRecipes() = listOf<Recipe>(
