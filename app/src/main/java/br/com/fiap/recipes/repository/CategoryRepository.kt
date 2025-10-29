@@ -14,6 +14,7 @@ import retrofit2.Response
 @Composable
 fun getAllCategories(): List<Category>{
 
+    println("Obtendo categorias...")
     var categories by remember {
         mutableStateOf(listOf<Category>())
     }
@@ -29,6 +30,7 @@ fun getAllCategories(): List<Category>{
             response: Response<List<Category>?>
         ) {
             categories = response.body()!!
+            println("----> Total: ${categories.size}")
         }
 
         override fun onFailure(
@@ -39,7 +41,6 @@ fun getAllCategories(): List<Category>{
         }
 
     })
-
     return categories
 }
 
