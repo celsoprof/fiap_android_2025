@@ -24,6 +24,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -43,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.com.fiap.recipes.model.Category
 import br.com.fiap.recipes.model.DifficultLevel
@@ -59,7 +61,7 @@ fun AddRecipeScreen(navController: NavHostController?) {
 
     // Instância de uma categoria
     var selectedCategory by remember {
-        mutableStateOf(Category())
+        mutableStateOf(Category(1, "Select"))
     }
 
     // Controla a exibição da lista de categorias
@@ -82,6 +84,14 @@ fun AddRecipeScreen(navController: NavHostController?) {
     // Posição do Slider (Cooking time)
     var cookingTime by remember {
         mutableStateOf(0f)
+    }
+
+    // Variáveis de estado para nome e descrição da receita
+    var recipeTitle by remember {
+        mutableStateOf("")
+    }
+    var recipeDescription by remember {
+        mutableStateOf("")
     }
 
     Box(
@@ -124,7 +134,9 @@ fun AddRecipeScreen(navController: NavHostController?) {
                         bottom = 24.dp
                     )
                 )
-                Row {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Icon(
                         imageVector = Icons.Default.AddBox,
                         contentDescription = "Add box",
@@ -139,8 +151,8 @@ fun AddRecipeScreen(navController: NavHostController?) {
                 }
                 // Campo título da receita
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = recipeTitle,
+                    onValueChange = {recipeTitle = it},
                     modifier = Modifier
                         .padding(top = 8.dp)
                         .fillMaxWidth(),
@@ -165,8 +177,8 @@ fun AddRecipeScreen(navController: NavHostController?) {
                 )
                 // Campo descrição da receita
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = recipeDescription,
+                    onValueChange = {recipeDescription = it},
                     modifier = Modifier
                         .padding(top = 12.dp)
                         .fillMaxWidth()
@@ -258,6 +270,7 @@ fun AddRecipeScreen(navController: NavHostController?) {
                     }
                 }
                 Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                 ) {
@@ -304,8 +317,9 @@ fun AddRecipeScreen(navController: NavHostController?) {
                     }
                 }
                 Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .padding(top = 24.dp)
+                        .padding(top = 16.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Timer,
@@ -323,6 +337,7 @@ fun AddRecipeScreen(navController: NavHostController?) {
                     text = "${cookingTime.toLong()} min",
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleSmall,
+                    fontSize = 22.sp,
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 4.dp)
                         .fillMaxWidth(),
@@ -333,7 +348,8 @@ fun AddRecipeScreen(navController: NavHostController?) {
                     onValueChange = {
                         cookingTime = it
                     },
-                    valueRange = 0f..240f
+                    valueRange = 0f..240f,
+                    steps = 0
                 )
             }
 
