@@ -14,8 +14,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             RecipesTheme {
                 //CategoryRecipeScreen(5000)
-                //NavigationRoutes()
-                AddRecipeScreen(null)
+                NavigationRoutes()
+                //AddRecipeScreen(null)
             }
         }
     }

@@ -96,21 +96,7 @@ fun HomeScreen(email: String, navController: NavController) {
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        val recipeRequest = RecipeRequest(
-                            title = "Frango Android 16",
-                            difficultLevel = DifficultLevel.INTERMEDIATE,
-                            description = "Mais um delicioso prato feito com frango",
-                            cookingTime = 45,
-                            creationDate = LocalDate.now().toString(),
-                            category = Category(1)
-                        )
-                        val json = Gson().toJson(recipeRequest)
-                        println("----------")
-                        println(json)
-                        println("----------")
-
-                        saveRecipe(recipeRequest)
-
+                        navController.navigate(Destination.AddRecipeScreen.route)
                     },
                     shape = CircleShape,
                     containerColor = MaterialTheme.colorScheme.primary

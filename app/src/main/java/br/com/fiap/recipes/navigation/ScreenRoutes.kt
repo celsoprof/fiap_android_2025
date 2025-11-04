@@ -16,7 +16,7 @@ sealed class Destination(val route: String){
             return "home/$email"
         }
     }
-
+    // TRECHO DE CÓDIGO OMITIDO
     object CategoryRecipeScreen: Destination("categoryRecipes/{id}"){
         fun createRoute(id: Int): String {
             return "categoryRecipes/$id"
@@ -24,4 +24,5 @@ sealed class Destination(val route: String){
     }
 
     object LoginScreen: Destination("login")
+    object AddRecipeScreen: Destination("addRecipeSreen")
 }

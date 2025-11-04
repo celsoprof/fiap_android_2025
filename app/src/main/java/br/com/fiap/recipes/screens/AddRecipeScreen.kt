@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.TextSnippet
 import androidx.compose.material.icons.filled.AddBox
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.material.icons.filled.Timer
@@ -26,6 +27,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -33,6 +35,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,9 +51,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.com.fiap.recipes.model.Category
 import br.com.fiap.recipes.model.DifficultLevel
+import br.com.fiap.recipes.model.RecipeRequest
 import br.com.fiap.recipes.repository.getAllCategories
+import br.com.fiap.recipes.repository.saveRecipe
 //import br.com.fiap.recipes.repository.getCategoryById
 import br.com.fiap.recipes.ui.theme.RecipesTheme
+import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -152,7 +158,7 @@ fun AddRecipeScreen(navController: NavHostController?) {
                 // Campo título da receita
                 OutlinedTextField(
                     value = recipeTitle,
-                    onValueChange = {recipeTitle = it},
+                    onValueChange = { recipeTitle = it },
                     modifier = Modifier
                         .padding(top = 8.dp)
                         .fillMaxWidth(),
@@ -178,7 +184,7 @@ fun AddRecipeScreen(navController: NavHostController?) {
                 // Campo descrição da receita
                 OutlinedTextField(
                     value = recipeDescription,
-                    onValueChange = {recipeDescription = it},
+                    onValueChange = { recipeDescription = it },
                     modifier = Modifier
                         .padding(top = 12.dp)
                         .fillMaxWidth()
@@ -354,9 +360,37 @@ fun AddRecipeScreen(navController: NavHostController?) {
             }
 
         }
-        BottomStartCard(
-            modifier = Modifier.align(Alignment.BottomStart)
-        )
+        Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+                .align(Alignment.BottomStart)
+        ) {
+            TextButton(
+                onClick = {
+                    val recipeRequest = RecipeRequest(
+                        title = recipeTitle,
+                        difficultLevel = difficultLevel,
+                        description = recipeDescription,
+                        cookingTime = cookingTime.toInt(),
+                        creationDate = LocalDate.now().toString(),
+                        category = selectedCategory
+                    )
+                    saveRecipe(recipeRequest)
+                }
+            ) {
+                Text(
+                    text = "NEXT",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontSize = 28.sp
+                )
+                Icon(
+                    imageVector = Icons.Default.ArrowForward,
+                    contentDescription = "Next button"
+                )
+            }
+        }
     }
 }
 

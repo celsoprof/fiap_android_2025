@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import br.com.fiap.recipes.screens.AddRecipeScreen
 import br.com.fiap.recipes.screens.CategoryRecipeScreen
 import br.com.fiap.recipes.screens.HomeScreen
 import br.com.fiap.recipes.screens.InitialScreen
@@ -66,6 +67,9 @@ fun NavigationRoutes() {
         }
         composable(Destination.LoginScreen.route) {
             LoginScreen(navController)
+        }
+        composable(Destination.AddRecipeScreen.route){
+            AddRecipeScreen(navController)
         }
     }
 }
