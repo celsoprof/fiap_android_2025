@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import br.com.fiap.recipes.navigation.NavigationRoutes
 import br.com.fiap.recipes.screens.AddRecipeIngredientsScreen
-import br.com.fiap.recipes.screens.AddRecipeScreen
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 
 class MainActivity : ComponentActivity() {
@@ -15,8 +14,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             RecipesTheme {
                 //CategoryRecipeScreen(5000)
-                //NavigationRoutes()
-                AddRecipeIngredientsScreen(null)
+                NavigationRoutes()
+                //AddRecipeIngredientsScreen(null, recipeId, recipeName)
             }
         }
     }

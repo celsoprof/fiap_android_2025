@@ -23,6 +23,15 @@ sealed class Destination(val route: String){
         }
     }
 
+    // Rota para a tela de cadastro de ingredientes da receita
+    // passando o id e nome da receita como argumentos da rota
+    object AddRecipeIngredientsScreen: Destination("addIngredients/{recipeId}/{recipeName}"){
+        fun createRoute(recipeId: Int, recipeName: String): String {
+            return "addIngredients/$recipeId/$recipeName"
+        }
+    }
+
     object LoginScreen: Destination("login")
     object AddRecipeScreen: Destination("addRecipeSreen")
+
 }

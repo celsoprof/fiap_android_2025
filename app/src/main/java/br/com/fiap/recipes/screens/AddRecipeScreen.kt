@@ -1,5 +1,6 @@
 package br.com.fiap.recipes.screens
 
+//import br.com.fiap.recipes.repository.getCategoryById
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,9 +26,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -40,6 +39,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,16 +51,21 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.com.fiap.recipes.model.Category
 import br.com.fiap.recipes.model.DifficultLevel
+import br.com.fiap.recipes.model.Recipe
 import br.com.fiap.recipes.model.RecipeRequest
+import br.com.fiap.recipes.navigation.Destination
+import br.com.fiap.recipes.navigation.NavigationRoutes
 import br.com.fiap.recipes.repository.getAllCategories
 import br.com.fiap.recipes.repository.saveRecipe
-//import br.com.fiap.recipes.repository.getCategoryById
 import br.com.fiap.recipes.ui.theme.RecipesTheme
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddRecipeScreen(navController: NavHostController?) {
+fun AddRecipeScreen(
+    navController: NavHostController?
+) {
 
     // Obter lista de categorias da API
     var categories = getAllCategories()
@@ -74,6 +79,14 @@ fun AddRecipeScreen(navController: NavHostController?) {
     var expanded by remember {
         mutableStateOf(false)
     }
+
+    // Variável que receberá o objeto recipe retornado ao cadastrar uma nova receita
+    var newRecipe by remember {
+        mutableStateOf<RecipeRequest?>(null)
+    }
+
+    // Criamos um escopo de corrotina
+    val scope = rememberCoroutineScope()
 
     // Lista de níveis de dificuldade
     val difficultLevelList = listOf(
@@ -377,7 +390,17 @@ fun AddRecipeScreen(navController: NavHostController?) {
                         creationDate = LocalDate.now().toString(),
                         category = selectedCategory
                     )
-                    saveRecipe(recipeRequest)
+                    scope.launch {
+                        val r = saveRecipe(recipeRequest)
+                        newRecipe = r
+                    }
+                    println("*********** ${newRecipe!!.id}")
+                    println("*********** ${newRecipe!!.title}")
+                    navController?.navigate(
+                        route = Destination
+                            .AddRecipeIngredientsScreen
+                            .createRoute(newRecipe!!.id ?: 0, newRecipe!!.title)
+                    )
                 }
             ) {
                 Text(

@@ -45,9 +45,15 @@ fun getLatestRecipes(): List<Recipe>{
     return latestRecipes
 }
 
-fun saveRecipe(recipeRequest: RecipeRequest): RecipeRequest? {
+//@Composable
+fun saveRecipe(recipeRequest: RecipeRequest): RecipeRequest {
 
     var newRecipe: RecipeRequest? = RecipeRequest()
+
+//    var newRecipe by remember {
+//        mutableStateOf(RecipeRequest())
+//    }
+
     val callNewRecipe = RetrofitClient.getRecipeSercive().saveRecipe(recipeRequest)
 
     callNewRecipe.enqueue(object : Callback<RecipeRequest>{
@@ -55,7 +61,8 @@ fun saveRecipe(recipeRequest: RecipeRequest): RecipeRequest? {
             p0: Call<RecipeRequest?>,
             response: Response<RecipeRequest?>
         ) {
-            newRecipe = response.body() ?: null
+            println(response.body())
+            newRecipe = response.body()!!
         }
 
         override fun onFailure(
@@ -65,7 +72,7 @@ fun saveRecipe(recipeRequest: RecipeRequest): RecipeRequest? {
             println(p1.message)
         }
     })
-    return newRecipe
+    return newRecipe!!
 }
 
 fun getAllRecipes() = listOf<Recipe>(
