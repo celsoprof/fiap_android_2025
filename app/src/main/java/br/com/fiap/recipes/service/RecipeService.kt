@@ -17,6 +17,7 @@ interface RecipeService {
     fun getLatestRecipes(): Call<List<Recipe>>
 
     @POST("recipes")
-    fun saveRecipe(@Body recipeRequest: RecipeRequest): Call<RecipeRequest>
+    suspend fun saveRecipe(@Body recipeRequest: RecipeRequest): RecipeRequest
+    //fun saveRecipe(@Body recipeRequest: RecipeRequest): Call<RecipeRequest>
 
 }

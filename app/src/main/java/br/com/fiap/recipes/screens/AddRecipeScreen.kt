@@ -51,10 +51,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.com.fiap.recipes.model.Category
 import br.com.fiap.recipes.model.DifficultLevel
-import br.com.fiap.recipes.model.Recipe
 import br.com.fiap.recipes.model.RecipeRequest
 import br.com.fiap.recipes.navigation.Destination
-import br.com.fiap.recipes.navigation.NavigationRoutes
 import br.com.fiap.recipes.repository.getAllCategories
 import br.com.fiap.recipes.repository.saveRecipe
 import br.com.fiap.recipes.ui.theme.RecipesTheme
@@ -64,7 +62,8 @@ import java.time.LocalDate
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddRecipeScreen(
-    navController: NavHostController?
+    navController: NavHostController?,
+    //onSuccessResult: (Int, String) -> Unit?
 ) {
 
     // Obter lista de categorias da API
@@ -81,12 +80,9 @@ fun AddRecipeScreen(
     }
 
     // Variável que receberá o objeto recipe retornado ao cadastrar uma nova receita
-    var newRecipe by remember {
-        mutableStateOf<RecipeRequest?>(null)
+    var newRecipe: RecipeRequest? by remember {
+        mutableStateOf(RecipeRequest())
     }
-
-    // Criamos um escopo de corrotina
-    val scope = rememberCoroutineScope()
 
     // Lista de níveis de dificuldade
     val difficultLevelList = listOf(
@@ -111,6 +107,32 @@ fun AddRecipeScreen(
     }
     var recipeDescription by remember {
         mutableStateOf("")
+    }
+
+    // Criamos um escopo de corrotina
+    val scope = rememberCoroutineScope()
+
+    var recipeRequest by remember {
+        mutableStateOf(RecipeRequest())
+    }
+
+    // função que será chamada para gravar a receita
+    val saveNewRecipe: () -> Unit = {
+        println("Salvando recipes...")
+        scope.launch {
+            recipeRequest = RecipeRequest(
+                title = recipeTitle,
+                difficultLevel = difficultLevel,
+                description = recipeDescription,
+                cookingTime = cookingTime.toInt(),
+                creationDate = LocalDate.now().toString(),
+                category = selectedCategory
+            )
+            newRecipe = saveRecipe(recipeRequest)
+            println("00000000000000")
+            println(newRecipe)
+            navController!!.navigate(Destination.AddRecipeIngredientsScreen.createRoute(newRecipe!!.id!!, newRecipe!!.title))
+        }
     }
 
     Box(
@@ -238,7 +260,10 @@ fun AddRecipeScreen(
                     ) {
                         OutlinedTextField(
                             modifier = Modifier
-                                .padding(top = 12.dp, bottom = 24.dp)
+                                .padding(
+                                    top = 12.dp,
+                                    bottom = 24.dp
+                                )
                                 .fillMaxWidth()
                                 .menuAnchor(),
                             value = selectedCategory.name,
@@ -358,7 +383,10 @@ fun AddRecipeScreen(
                     style = MaterialTheme.typography.titleSmall,
                     fontSize = 22.sp,
                     modifier = Modifier
-                        .padding(top = 8.dp, bottom = 4.dp)
+                        .padding(
+                            top = 8.dp,
+                            bottom = 4.dp
+                        )
                         .fillMaxWidth(),
                     textAlign = TextAlign.Center
                 )
@@ -381,27 +409,27 @@ fun AddRecipeScreen(
                 .align(Alignment.BottomStart)
         ) {
             TextButton(
-                onClick = {
-                    val recipeRequest = RecipeRequest(
-                        title = recipeTitle,
-                        difficultLevel = difficultLevel,
-                        description = recipeDescription,
-                        cookingTime = cookingTime.toInt(),
-                        creationDate = LocalDate.now().toString(),
-                        category = selectedCategory
-                    )
-                    scope.launch {
-                        val r = saveRecipe(recipeRequest)
-                        newRecipe = r
-                    }
-                    println("*********** ${newRecipe!!.id}")
-                    println("*********** ${newRecipe!!.title}")
-                    navController?.navigate(
-                        route = Destination
-                            .AddRecipeIngredientsScreen
-                            .createRoute(newRecipe!!.id ?: 0, newRecipe!!.title)
-                    )
-                }
+                onClick = saveNewRecipe //{
+                    //saveNewRecipe
+//                    scope.launch {
+//                        recipeRequest = RecipeRequest(
+//                            title = recipeTitle,
+//                            difficultLevel = difficultLevel,
+//                            description = recipeDescription,
+//                            cookingTime = cookingTime.toInt(),
+//                            creationDate = LocalDate.now().toString(),
+//                            category = selectedCategory
+//                        )
+//                        newRecipe = saveRecipe(recipeRequest)
+//                    }
+//                    println("*********** ${newRecipe!!.id}")
+                    //println("*********** ${newRecipe!!.title}")
+//                    navController?.navigate(
+//                        route = Destination
+//                            .AddRecipeIngredientsScreen
+//                            .createRoute(newRecipe!!.id ?: 0, newRecipe!!.title)
+//                    )
+                //}
             ) {
                 Text(
                     text = "NEXT",
@@ -422,6 +450,6 @@ fun AddRecipeScreen(
 @Composable
 private fun AddRecipeScreenPreview() {
     RecipesTheme {
-        AddRecipeScreen(null)
+        //AddRecipeScreen(null, null)
     }
 }

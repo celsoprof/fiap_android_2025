@@ -40,7 +40,10 @@ fun NavigationRoutes() {
             )
         ) { backStackEntry ->
             var email = backStackEntry.arguments?.getString("email")
-            HomeScreen(email!!, navController)
+            HomeScreen(
+                email!!,
+                navController
+            )
         }
 
         composable(
@@ -52,7 +55,10 @@ fun NavigationRoutes() {
             )
         ) { backStackEntry ->
             var categoryId = backStackEntry.arguments?.getInt("id")
-            CategoryRecipeScreen(categoryId, navController)
+            CategoryRecipeScreen(
+                categoryId,
+                navController
+            )
         }
 
         composable(Destination.SignupScreen.route) {
@@ -66,14 +72,24 @@ fun NavigationRoutes() {
                 }
             )) { backStackEntry ->
             var email = backStackEntry.arguments?.getString("email")
-            ProfileScreen(navController, email!!)
+            ProfileScreen(
+                navController,
+                email!!
+            )
         }
         composable(Destination.LoginScreen.route) {
             LoginScreen(navController)
         }
-        composable(Destination.AddRecipeScreen.route){
-            AddRecipeScreen(navController)
+
+        composable(Destination.AddRecipeScreen.route) {
+            AddRecipeScreen(
+                navController,
+//                onSuccessResult = { id, nome ->
+//                    println("----> $id - $nome")
+//                }
+            )
         }
+
         composable(
             route = Destination.AddRecipeIngredientsScreen.route,
             arguments = listOf(
@@ -87,7 +103,11 @@ fun NavigationRoutes() {
         ) { backStackEntry ->
             var recipeId = backStackEntry.arguments?.getInt("recipeId")
             var recipeName = backStackEntry.arguments?.getString("recipeName")
-            AddRecipeIngredientsScreen(navController, recipeId, recipeName)
+            AddRecipeIngredientsScreen(
+                navController,
+                recipeId,
+                recipeName
+            )
         }
     }
 }
