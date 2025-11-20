@@ -1,5 +1,6 @@
 package br.com.fiap.recipes.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +36,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,12 +44,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.com.fiap.recipes.model.Ingredient
-//import br.com.fiap.recipes.repository.getCategoryById
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,7 +69,7 @@ fun AddRecipeIngredientsScreen(
     }
 
     var ingredientNumber by remember {
-        mutableStateOf(0)
+        mutableIntStateOf(0)
     }
 
     Column(
@@ -81,7 +83,7 @@ fun AddRecipeIngredientsScreen(
         Box(modifier = Modifier.fillMaxWidth()) {
             TopEndCard(modifier = Modifier.align(Alignment.TopEnd))
         }
-        Column( // TOP
+        Column(
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxSize()
@@ -156,7 +158,7 @@ fun AddRecipeIngredientsScreen(
                     trailingIcon = {
                         IconButton(
                             onClick = {
-                                ingredientNumber++
+                                ingredientNumber = ingredients.size + 1
                                 ingredients.add(Ingredient(ingredientNumber, ingredient))
                             }
                         ) {
@@ -181,7 +183,18 @@ fun AddRecipeIngredientsScreen(
                 LazyColumn {
                     items(ingredients) { ingredient ->
                         IngredientItem(
-                            onClick = {},
+                            onClick = {
+                                // Removemos o ingrediente da lista
+                                ingredients.remove(ingredient)
+
+                                // Atualizamos a ordem dos ingredientes
+                                val reorderedList = ingredients.mapIndexed { index, item ->
+                                    item.copy(id = index + 1)
+                                }
+                                // Atualizamos a lista de ingredientes
+                                ingredients.clear()
+                                ingredients.addAll(reorderedList)
+                            },
                             ingredient
                         )
                     }
@@ -196,9 +209,7 @@ fun AddRecipeIngredientsScreen(
                 //.align(Alignment.BottomStart)
             ) {
                 TextButton(
-                    onClick = {
-                        ingredients.add(Ingredient(1, "3 tomates sem pele"))
-                    }
+                    onClick = {}
                 ) {
                     Text(
                         text = "NEXT",
@@ -267,7 +278,9 @@ fun IngredientItem(onClick: () -> Unit, ingredient: Ingredient) {
                     .weight(2f)
             )
             IconButton(
-                onClick = {}
+                onClick = {
+                    onClick()
+                }
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,
@@ -283,7 +296,10 @@ fun IngredientItem(onClick: () -> Unit, ingredient: Ingredient) {
 @Composable
 private fun IngredientItemPreview() {
     RecipesTheme {
-        IngredientItem(onClick = {}, Ingredient(22, "Teste"))
+        IngredientItem(
+            onClick = {},
+            ingredient = Ingredient(22, "Teste")
+        )
     }
 }
 
@@ -291,6 +307,9 @@ private fun IngredientItemPreview() {
 @Composable
 private fun AddRecipeScreenPreview() {
     RecipesTheme {
-        AddRecipeIngredientsScreen(null, 0, "Recipe name")
+        AddRecipeIngredientsScreen(
+            navController = null,
+            recipeId = 0,
+            recipeName = "Recipe name")
     }
 }

@@ -45,31 +45,12 @@ fun getLatestRecipes(): List<Recipe>{
     return latestRecipes
 }
 
-//@Composable
- suspend fun saveRecipe(recipeRequest: RecipeRequest): RecipeRequest {
-
-    //var newRecipe: RecipeRequest? = RecipeRequest()
-
+// TRECHO DE CÓDIGO OMITIDO
+suspend fun saveRecipe(recipeRequest: RecipeRequest): RecipeRequest {
     val newRecipe = RetrofitClient.getRecipeSercive().saveRecipe(recipeRequest)
-
-//    callNewRecipe.enqueue(object : Callback<RecipeRequest>{
-//        override fun onResponse(
-//            p0: Call<RecipeRequest?>,
-//            response: Response<RecipeRequest?>
-//        ) {
-//            println(response.body())
-//            newRecipe = response.body()
-//        }
-//
-//        override fun onFailure(
-//            p0: Call<RecipeRequest?>,
-//            p1: Throwable
-//        ) {
-//            println(p1.message)
-//        }
-//    })
-    return newRecipe!!
+    return newRecipe
 }
+// TRECHO DE CÓDIGO OMITIDO
 
 fun getAllRecipes() = listOf<Recipe>(
     Recipe(

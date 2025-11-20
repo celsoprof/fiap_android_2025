@@ -129,10 +129,10 @@ private fun LoginTitlePreview() {
 fun LoginForm(navController: NavController) {
 
     var emailState = remember {
-        mutableStateOf("")
+        mutableStateOf("celso@fiap.com.br")
     }
     var passwordState = remember {
-        mutableStateOf("")
+        mutableStateOf("123")
     }
     var showPassword = remember {
         mutableStateOf(false)

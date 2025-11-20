@@ -18,6 +18,5 @@ interface RecipeService {
 
     @POST("recipes")
     suspend fun saveRecipe(@Body recipeRequest: RecipeRequest): RecipeRequest
-    //fun saveRecipe(@Body recipeRequest: RecipeRequest): Call<RecipeRequest>
 
 }

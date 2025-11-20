@@ -83,10 +83,7 @@ fun NavigationRoutes() {
 
         composable(Destination.AddRecipeScreen.route) {
             AddRecipeScreen(
-                navController,
-//                onSuccessResult = { id, nome ->
-//                    println("----> $id - $nome")
-//                }
+                navController
             )
         }
 
