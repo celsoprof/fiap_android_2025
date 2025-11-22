@@ -22,7 +22,7 @@ object RetrofitClient {
     }
 
     // Obter uma instância, gerada pelo Retrofit, de um objeto RecipeService
-    fun getRecipeSercive(): RecipeService{
+    fun getRecipeService(): RecipeService{
         return retrofit.create(RecipeService::class.java)
     }
 

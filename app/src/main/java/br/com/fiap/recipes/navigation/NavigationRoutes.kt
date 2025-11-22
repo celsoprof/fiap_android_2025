@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import br.com.fiap.recipes.screens.AddPreparationMethodsScreen
 import br.com.fiap.recipes.screens.AddRecipeIngredientsScreen
 import br.com.fiap.recipes.screens.AddRecipeScreen
 import br.com.fiap.recipes.screens.CategoryRecipeScreen
@@ -101,6 +102,27 @@ fun NavigationRoutes() {
             var recipeId = backStackEntry.arguments?.getInt("recipeId")
             var recipeName = backStackEntry.arguments?.getString("recipeName")
             AddRecipeIngredientsScreen(
+                navController,
+                recipeId,
+                recipeName
+            )
+        }
+
+        // Adicionar a rota para a tela de modos de preparo
+        composable(
+            route = Destination.AddPreparationMethodsScreen.route,
+            arguments = listOf(
+                navArgument(
+                    name = "recipeId"
+                ) { type = NavType.IntType },
+                navArgument(
+                    name = "recipeName"
+                ) { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            var recipeId = backStackEntry.arguments?.getInt("recipeId")
+            var recipeName = backStackEntry.arguments?.getString("recipeName")
+            AddPreparationMethodsScreen(
                 navController,
                 recipeId,
                 recipeName

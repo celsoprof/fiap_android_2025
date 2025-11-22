@@ -1,7 +1,5 @@
 package br.com.fiap.recipes.repository
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,23 +8,26 @@ import androidx.compose.runtime.setValue
 import br.com.fiap.recipes.factory.RetrofitClient
 import br.com.fiap.recipes.model.Category
 import br.com.fiap.recipes.model.DifficultLevel
+import br.com.fiap.recipes.model.Ingredient
+import br.com.fiap.recipes.model.PreparationMethod
 import br.com.fiap.recipes.model.Recipe
 import br.com.fiap.recipes.model.RecipeRequest
 import br.com.fiap.recipes.model.User
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
 
 @Composable
-fun getLatestRecipes(): List<Recipe>{
+fun getLatestRecipes(): List<Recipe> {
     var latestRecipes by remember {
         mutableStateOf(listOf<Recipe>())
     }
 
-    val callLatestRecipes = RetrofitClient.getRecipeSercive().getLatestRecipes()
+    val callLatestRecipes = RetrofitClient.getRecipeService().getLatestRecipes()
 
-    callLatestRecipes.enqueue(object : Callback<List<Recipe>>{
+    callLatestRecipes.enqueue(object : Callback<List<Recipe>> {
         override fun onResponse(
             p0: Call<List<Recipe>?>,
             response: Response<List<Recipe>?>
@@ -47,9 +48,39 @@ fun getLatestRecipes(): List<Recipe>{
 
 // TRECHO DE CÓDIGO OMITIDO
 suspend fun saveRecipe(recipeRequest: RecipeRequest): RecipeRequest {
-    val newRecipe = RetrofitClient.getRecipeSercive().saveRecipe(recipeRequest)
+    val newRecipe = RetrofitClient.getRecipeService().saveRecipe(recipeRequest)
     return newRecipe
 }
+
+suspend fun saveRecipeIngredients(
+    recipeId: Int,
+    ingredients: List<Ingredient>
+): List<Ingredient> {
+    println("Estou aqui...")
+    println(recipeId)
+    println(Gson().toJson(ingredients))
+    val newIngredients = RetrofitClient
+        .getRecipeService()
+        .saveRecipeIngredients(
+            recipeId = recipeId,
+            ingredients = ingredients
+        )
+    return newIngredients
+}
+
+suspend fun savePreparationMethods(
+    recipeId: Int,
+    preparationMethods: List<PreparationMethod>
+): List<PreparationMethod> {
+    val newPreparationMethods = RetrofitClient
+        .getRecipeService()
+        .savePreparationMethods(
+            recipeId = recipeId,
+            preparationMethods = preparationMethods
+        )
+    return newPreparationMethods
+}
+
 // TRECHO DE CÓDIGO OMITIDO
 
 fun getAllRecipes() = listOf<Recipe>(
@@ -117,9 +148,9 @@ fun getRecipesByCategory(id: Int): List<Recipe> {
     }
 
     println("-----> $id")
-    val callRecipesByCategory = RetrofitClient.getRecipeSercive().getRecipesByCategoryId(id)
+    val callRecipesByCategory = RetrofitClient.getRecipeService().getRecipesByCategoryId(id)
 
-    callRecipesByCategory.enqueue(object : Callback<List<Recipe>>{
+    callRecipesByCategory.enqueue(object : Callback<List<Recipe>> {
         override fun onResponse(
             p0: Call<List<Recipe>?>,
             response: Response<List<Recipe>?>
