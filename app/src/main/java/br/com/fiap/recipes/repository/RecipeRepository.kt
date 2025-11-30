@@ -14,9 +14,13 @@ import br.com.fiap.recipes.model.Recipe
 import br.com.fiap.recipes.model.RecipeRequest
 import br.com.fiap.recipes.model.User
 import com.google.gson.Gson
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Multipart
+import java.io.File
 import java.time.LocalDate
 
 @Composable
@@ -79,6 +83,18 @@ suspend fun savePreparationMethods(
             preparationMethods = preparationMethods
         )
     return newPreparationMethods
+}
+
+suspend fun uploadImage(recipeId: Int, file: File){
+    val image = MultipartBody.Part
+        .createFormData(
+        name = "file",
+        filename = file.name,
+        body = file.asRequestBody()
+    )
+
+    RetrofitClient.getRecipeService().uploadImage(recipeId, image)
+
 }
 
 // TRECHO DE CÓDIGO OMITIDO
@@ -169,10 +185,10 @@ fun getRecipesByCategory(id: Int): List<Recipe> {
     return recipes
 }
 
-fun getRecipeById(id: Int) = getAllRecipes()
-    .filter {
-        it.id == id
-    }
+//fun getRecipeById(id: Int) = getAllRecipes()
+//    .filter {
+//        it.id == id
+//    }
 
 
 

@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import br.com.fiap.recipes.screens.AddPreparationMethodsScreen
 import br.com.fiap.recipes.screens.AddRecipeIngredientsScreen
+import br.com.fiap.recipes.screens.AddRecipePhoto
 import br.com.fiap.recipes.screens.AddRecipeScreen
 import br.com.fiap.recipes.screens.CategoryRecipeScreen
 import br.com.fiap.recipes.screens.HomeScreen
@@ -127,6 +128,18 @@ fun NavigationRoutes() {
                 recipeId,
                 recipeName
             )
+        }
+        // Rota para a tela de cadastro de imagem da receita
+        composable(
+            route = Destination.AddRecipePhoto.route,
+            arguments = listOf(
+                navArgument(
+                    name = "recipeId"
+                ) { type = NavType.IntType },
+            )
+        ) { backStackEntry ->
+            var recipeId = backStackEntry.arguments?.getInt("recipeId")
+            AddRecipePhoto(recipeId!!, navController)
         }
     }
 }

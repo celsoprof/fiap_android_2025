@@ -1,5 +1,6 @@
 package br.com.fiap.recipes.screens
 
+import android.content.Context
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +45,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import br.com.fiap.recipes.R
 import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.repository.RoomUserRepository
@@ -127,6 +129,8 @@ private fun LoginTitlePreview() {
 // *** Componente 2 - Formulário de Login do Usuário
 @Composable
 fun LoginForm(navController: NavController) {
+
+    val context = LocalContext.current
 
     var emailState = remember {
         mutableStateOf("celso@fiap.com.br")
@@ -241,6 +245,12 @@ fun LoginForm(navController: NavController) {
                 val authenticate =
                     userRepository.login(emailState.value, passwordState.value)
                 if (authenticate) {
+                    // Gravar dados do usuário no SharedPreferences
+                    val sharedPreferences = context
+                        .getSharedPreferences("user_data", Context.MODE_PRIVATE)
+                    sharedPreferences.edit()
+                        .putString("email", emailState.value)
+                        .apply()
                     navController.navigate(
                         Destination.HomeScreen.createRoute(emailState.value)
                     )
@@ -307,6 +317,6 @@ fun LoginForm(navController: NavController) {
 @Composable
 private fun LoginFormPreview() {
     RecipesTheme {
-        //LoginForm({})
+        LoginForm(rememberNavController())
     }
 }

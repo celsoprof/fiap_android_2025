@@ -47,8 +47,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavHostController
 import br.com.fiap.recipes.model.PreparationMethod
+import br.com.fiap.recipes.navigation.Destination
 import br.com.fiap.recipes.repository.savePreparationMethods
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 import kotlinx.coroutines.launch
@@ -94,6 +96,10 @@ fun AddPreparationMethodsScreen(
             newMethods = savePreparationMethods(
                 recipeId = recipeId!!,
                 preparationMethods = methodsToSend
+            )
+            // Navegar para a tela de envio de imagem da receita
+            navController!!.navigate(
+                Destination.AddRecipePhoto.createRoute(recipeId)
             )
         }
     }

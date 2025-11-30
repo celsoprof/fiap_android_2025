@@ -1,5 +1,6 @@
 package br.com.fiap.recipes.screens
 
+import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import androidx.compose.foundation.BorderStroke
@@ -250,11 +251,17 @@ private fun ContentScreenPreview() {
 // *** TopAppBar ***
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopAppBar(email: String = "", navController: NavController) {
+fun MyTopAppBar(email: String, navController: NavController) {
 
     // Criar uma instância da classe SharedPreferencesUserRepository
-    //val userRepository: UserRepository = SharedPreferencesUserRepository(LocalContext.current)
     val userRepository: UserRepository = RoomUserRepository(LocalContext.current)
+
+    // Lendo o arquivo "user_data" no SharedPreferences
+    val sharedPreferences = LocalContext.current
+        .getSharedPreferences("user_data", Context.MODE_PRIVATE)
+
+    val email = sharedPreferences.getString("email", "")!!
+
     val user = userRepository.getUserByEmail(email)
 
     // variáveis de estado para exibir a imagem do usuário

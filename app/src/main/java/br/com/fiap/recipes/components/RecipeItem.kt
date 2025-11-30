@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import br.com.fiap.recipes.factory.RetrofitClient
 import br.com.fiap.recipes.model.Recipe
 import br.com.fiap.recipes.repository.getAllRecipes
+//import br.com.fiap.recipes.repository.getAllRecipes
 import br.com.fiap.recipes.ui.theme.RecipesTheme
 
 // TRECHO DE CÓDIGO OMITIDO
